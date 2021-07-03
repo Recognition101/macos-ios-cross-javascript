@@ -1,0 +1,33 @@
+# Language specific files
+.npm
+npm-debug.log
+node_modules
+.sass-cache
+
+# Editor specific project files
+.tern-project
+*.swp
+*.swo
+
+# Data Files
+*/*.json
+*/*.bak
+api-ast.json
+markdown/output.html
+!tsconfig.json
+_Archive_
+README.html
+
+# Hidden Scripts
+Welcome to Scriptable.js
+Test File.js
+Extension.js
+extension/
+Cafe.js
+cafe/
+Shuttle.js
+Shuttle Update.js
+shuttle/
+
+# OS files
+.DS_Store

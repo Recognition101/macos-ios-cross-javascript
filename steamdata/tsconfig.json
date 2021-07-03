@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "allowJs": true,
+        "checkJs": true,
+        "strict": true,
+        "module": "commonjs",
+        "jsx": "preserve",
+        "noEmit": true,
+        "maxNodeModuleJsDepth": 0,
+        "lib": ["ESNext", "DOM"],
+        "moduleResolution": "node"
+    },
+    "include": [ ],
+    "files": [ "./script.js" ]
+}

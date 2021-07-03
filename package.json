@@ -1,0 +1,43 @@
+{
+    "name": "macos-ios-cross-javascript",
+    "version": "1.0.0",
+    "scripts": {
+        "lint": "eslint . && tsc -p ."
+    },
+    "devDependencies": {
+        "@types/node": "13.1.7"
+    },
+    "eslintConfig": {
+        "root": true,
+        "ignorePatterns": [ "_Archive_/**/*.js" ],
+        "env": {
+            "node": true,
+            "browser": true,
+            "es2021": true
+        },
+        "parserOptions": {
+            "ecmaVersion": 12,
+            "impliedStrict": true,
+            "sourceType": "module"
+        },
+        "extends": "eslint:recommended",
+        "rules": {
+            "comma-dangle": "off",
+            "quotes": ["error", "single", { "allowTemplateLiterals": true}],
+            "semi": "error",
+            "indent": ["error", 4, { "flatTernaryExpressions": true }],
+            "no-mixed-spaces-and-tabs": "error",
+            "strict": "error",
+            "max-len": ["error", 80],
+            "prefer-const": "error",
+            "no-console": "error",
+            "no-const-assign": "error",
+            "no-empty": ["error", { "allowEmptyCatch": true }],
+            "no-undef": "error",
+            "no-unused-vars": "off",
+            "no-var": "error",
+            "no-extend-native": "error",
+            "eqeqeq": "error"
+        }
+    }
+}

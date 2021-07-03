@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "allowJs": true,
+    "checkJs": true,
+    "strict": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "lib": [ "esnext", "dom" ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "maxNodeModuleJsDepth": 0
+  },
+  "include": ["./*.js"]
+}

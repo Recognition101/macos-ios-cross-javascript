@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "allowJs": true,
+    "checkJs": true,
+    "strict": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "lib": [ "esnext" ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "maxNodeModuleJsDepth": 0
+  },
+  "include": ["./*.js"],
+  "files": [ "./lib/scriptable.js" ]
+}
