@@ -1,6 +1,6 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// icon-color: deep-green; icon-glyph: folder-open;
+// icon-color: light-brown; icon-glyph: crosshairs;
 // share-sheet-inputs: url;
 
 ///<reference path="./types/featuredGame.d.ts" />

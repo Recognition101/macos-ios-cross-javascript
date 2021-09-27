@@ -1,6 +1,7 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// icon-color: blue; icon-glyph: plus; share-sheet-inputs: plain-text, url;
+// icon-color: light-brown; icon-glyph: images;
+// share-sheet-inputs: plain-text, url;
 /// <reference path="./types/retroarch.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line

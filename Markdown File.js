@@ -1,6 +1,7 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// icon-color: blue; icon-glyph: plus; share-sheet-inputs: plain-text, url;
+// icon-color: light-brown; icon-glyph: file-alt;
+// share-sheet-inputs: plain-text, url;
 // @ts-ignore
 // eslint-disable-next-line
 try { require; } catch(e) { require = () => importModule('lib/scriptable'); }

@@ -1,7 +1,6 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// icon-color: deep-purple; icon-glyph: music;
-// share-sheet-inputs: url;
+// icon-color: yellow; icon-glyph: music; share-sheet-inputs: url;
 
 ///<reference path="./types/LastFm.d.ts" />
 // @ts-ignore
