@@ -11,6 +11,7 @@ node_modules
 
 # Data Files
 */*.json
+*/*-config.js
 */*.bak
 api-ast.json
 markdown/output.html

@@ -9,8 +9,9 @@
     "lib": [ "esnext" ],
     "module": "commonjs",
     "moduleResolution": "node",
-    "maxNodeModuleJsDepth": 0
+    "maxNodeModuleJsDepth": 0,
+    "resolveJsonModule": true
   },
-  "include": ["./*.js"],
+  "include": ["./*.js", "./**/*-config.js" ],
   "files": [ "./lib/scriptable.js" ]
 }

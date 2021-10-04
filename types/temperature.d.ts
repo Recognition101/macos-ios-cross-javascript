@@ -23,16 +23,4 @@ declare namespace Temperature {
             }
         };
     }
-
-    interface HueResponse {
-        sensors: {
-            [index: string]: {
-                name: string;
-                state: {
-                    temperature?: number;
-                    lastupdated?: string;
-                }
-            }
-        }
-    }
 }

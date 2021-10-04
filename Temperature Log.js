@@ -4,6 +4,7 @@
 // share-sheet-inputs: url;
 
 ///<reference path="./types/temperature.d.ts" />
+///<reference path="./types/philipshue.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
 try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
@@ -57,7 +58,7 @@ const main = async () => {
     log.lastUpdated = now.getTime();
 
     const infoJson = await downloadJson(`http://${hostName}/api/${userName}`);
-    const info = /** @type {Temperature.HueResponse|null} */(infoJson);
+    const info = /** @type {PhilipsHue.Index|null} */(infoJson);
 
     for(const sensor of Object.values(info?.sensors ?? { })) {
         const name = sensor.name;
