@@ -1,4 +1,5 @@
 /// <reference path="../types/steam.d.ts" />
+/// <reference path="../types/gamecenter.d.ts" />
 
 /**
  *
@@ -55,24 +56,79 @@ const getDuration = time => time > 60
     ? (Math.round(time / 60 * 10) / 10).toString() + ' hrs'
     : time + ' mins';
 
+/**
+ * Given a UTC time (ms since epoch), convert it to a string.
+ * @param {number|string} time the time (in ms since epoch) or UTC time-string
+ * @return {string} the human readable time
+ */
+const getTime = time => (new Date(time)).toLocaleString();
+
 const main = async () => {
-    /** @type {SteamData.UserData} */
-    const userData = await loadData('./userdata.json');
+    /** @type {SteamData.UserData|null} */
+    const steam = await loadData('./userdata.json');
+    /** @type {GameCenter.History|null} */
+    const apple = await loadData('./userdata-GameCenter.json');
 
-    const achievements = userData.games
-        .flatMap(({ game, achievements }) =>
-            achievements.map(achievement => ({ game, achievement })))
-        .filter(x => x.achievement.achieved === 1)
-        .sort((a, b) => b.achievement.unlocktime - a.achievement.unlocktime);
+    const steamList = (steam?.games ?? [ ]).flatMap(({ game, achievements }) =>
+        achievements
+            .filter(x => x.achieved === 1)
+        .map(achievement => ({
+                game: {
+                    name: game.name,
+                    detail: `Playtime: ${getDuration(game.playtime_forever)}`
+                },
+                name: achievement.name,
+                description: achievement.description,
+                time: (new Date(achievement.unlocktime * 1000)).getTime()
+            }))
+    );
 
-    /** @type {SteamData.PlayedGame[]} */
+    const appleList = (apple?.games_state ?? [ ]).flatMap(game => {
+        const leaders = game.leaderboard.flatMap(leader => {
+            return leader.leaderboard_score.map(score => ({
+                game: {
+                    name: game.game_name,
+                    detail: `Last Played: ${getTime(game.last_played_utc)}`
+                },
+                name: leader.leaderboard_title,
+                description:
+                    `${score.time_scope} Score: ${score.score} ` +
+                    `(Rank ${score.rank})`,
+                time: (new Date(score.submitted_time_utc)).getTime()
+            }));
+        });
+
+        const achievements = game.achievements.map(achievement => ({
+            game: {
+                name: game.game_name,
+                detail: `Last Played: ${getTime(game.last_played_utc)}`
+            },
+            name: achievement.achievements_title,
+            description: `${achievement.percentage_complete}% Complete`,
+            time: (new Date(achievement.last_update_utc)).getTime()
+        }));
+
+        return leaders.concat(achievements);
+    });
+
+    const allList = steamList.concat(appleList);
+
+    allList.sort((a, b) => b.time - a.time);
+
+    /**
+     * @typedef {Object} AchievementGroup
+     * @prop {typeof allList[number]["game"]} game the game key
+     * @prop {typeof allList} achievements the list of achievements
+     */
+
+    /** @type {AchievementGroup[]} */
     const groups = [ ];
-    for(const { achievement, game } of achievements) {
+    for(const item of allList) {
         const group = groups.length > 0 ? groups[groups.length - 1] : null;
-        if (!group || group.game !== game) {
-            groups.push({ game, achievements: [ achievement ] });
+        if (!group || group.game.name !== item.game.name) {
+            groups.push({ game: item.game, achievements: [ item ] });
         } else {
-            group.achievements.push(achievement);
+            group.achievements.push(item);
         }
     }
 
@@ -80,21 +136,12 @@ const main = async () => {
     document.body.appendChild(h('div.main', {}, [
         h('h1', {}, 'Steam Achievement List'),
         h('ul', {}, groups.map(({ game, achievements }) => {
-
-            const timeAll = getDuration(game.playtime_forever);
-            //const timeMac = getDuration(game.playtime_mac_forever);
-            //const timeLin = getDuration(game.playtime_linux_forever);
-            //const timeWin = getDuration(game.playtime_windows_forever);
-            //const time = `${timeAll} (${timeWin} / ${timeMac} / ${timeLin})`;
-
             return h('li', {}, [
-                h('h2.title', {}, [ `${game.name} (${timeAll})` ]),
+                h('h2.title', {}, [ `${game.name} (${game.detail})` ]),
                 h('ul.achievements', {}, achievements.map(achievement => {
-                    const { name, description, unlocktime } = achievement;
-                    const unlockDate = new Date(unlocktime * 1000);
-                    const unlockString = unlockDate.toLocaleString();
+                    const { name, description, time } = achievement;
                     const extraInfo = description ? `(${description})` : '';
-                    const text = `${unlockString} - ${name} ${extraInfo}`;
+                    const text = `${getTime(time)} - ${name} ${extraInfo}`;
                     return h('li', {}, [ text ]);
                 }))
             ]);
