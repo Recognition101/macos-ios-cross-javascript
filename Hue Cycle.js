@@ -117,6 +117,7 @@ class RandomTask {
         this.time = 0;
         this.color = light.color;
         this.setup();
+        this.time = 0;
     }
 
     setup() {
