@@ -7,7 +7,7 @@
 try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
 
 const {
-    string, getInput, readText, writeText, markdownToHtml, markedHtml, output,
+    string, getInput, readText, writeText, external, output,
     listFiles, pathJoin
 } = require('./lib/node.js');
 
@@ -28,12 +28,14 @@ const main = async () => {
     const pathRoot = string(input.folder);
     const files = await listFiles(pathRoot);
     const mdFiles = files.filter(name => name.endsWith('.md'));
+    const marked = external.marked;
+    const templates = external.markedTemplates;
 
     for(const mdFile of mdFiles) {
         const inPath = pathJoin(pathRoot, mdFile);
         const outPath = pathJoin(pathRoot, mdFile.replace(/\.md$/, '.html'));
         const markdown = (await readText(inPath)) || '';
-        await writeText(outPath, markedHtml(markdownToHtml(markdown)));
+        await writeText(outPath, templates.html(marked(markdown)));
     }
 
     output('Markdown Folder', `Compiled ${mdFiles.length} files.`);

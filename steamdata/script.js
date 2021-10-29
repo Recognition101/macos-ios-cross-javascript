@@ -72,7 +72,7 @@ const main = async () => {
     const steamList = (steam?.games ?? [ ]).flatMap(({ game, achievements }) =>
         achievements
             .filter(x => x.achieved === 1)
-        .map(achievement => ({
+            .map(achievement => ({
                 game: {
                     name: game.name,
                     detail: `Playtime: ${getDuration(game.playtime_forever)}`

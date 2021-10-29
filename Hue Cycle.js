@@ -68,7 +68,7 @@ class CycleTask {
     setup() {
         const times = this.program.times;
         const waitTime = Math.random() * (times.max - times.min) + times.min;
-        this.time = (new Date()).getTime() + waitTime;
+        this.time = (new Date()).getTime() + waitTime * 1000;
     }
 
     async run() {
@@ -126,7 +126,7 @@ class RandomTask {
         const times = light?.update?.times ?? this.program.update.times;
         const waitTime = Math.random() * (times.max - times.min) + times.min;
 
-        this.time = (new Date()).getTime() + waitTime;
+        this.time = (new Date()).getTime() + waitTime * 1000;
         this.color = colors[Math.floor(colors.length * Math.random())];
     }
 

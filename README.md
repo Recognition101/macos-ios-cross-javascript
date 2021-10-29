@@ -40,6 +40,7 @@ Once set up, run each script with `-h` or `--help` for documentation. Help messa
  * Cafe
  * Calc
  * Caller
+ * Hue Cycle
  * LastFM History
  * Laundry Delay
  * LifeLog Finish
@@ -47,6 +48,7 @@ Once set up, run each script with `-h` or `--help` for documentation. Help messa
  * LifeLog New
  * LifeLog Restart
  * Markdown Folder
+ * Music Playlists
  * Music Releases
  * Music Similar Artists
  * Music Top Tracks
@@ -66,6 +68,7 @@ Once set up, run each script with `-h` or `--help` for documentation. Help messa
  * SteamData Update
  * SteamData
  * TV Randomizer
+ * Temperature Log
  * Wishlist Update
  * Wishlist
 

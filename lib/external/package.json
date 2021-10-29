@@ -1,0 +1,21 @@
+{
+    "name": "macos-ios-cross-javascript-external",
+    "version": "1.0.0",
+    "scripts": {
+        "build": "npm run build-cjs && npm run build-esm",
+        "build-esm": "rollup --config ./rollup.config.js -o ./external.esm.js -f es",
+        "build-cjs": "rollup --config ./rollup.config.js -o ./external.cjs.js -f cjs"
+    },
+    "dependencies": {
+        "json5": "2.2.0",
+        "marked": "3.0.8",
+        "parse5": "6.0.1"
+    },
+    "devDependencies": {
+        "@rollup/plugin-commonjs": "21.0.1",
+        "@rollup/plugin-node-resolve": "13.0.6",
+        "@types/marked": "3.0.2",
+        "@types/parse5": "6.0.2",
+        "rollup": "2.58.3"
+    }
+}

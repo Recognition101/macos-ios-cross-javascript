@@ -9,7 +9,12 @@
     },
     "eslintConfig": {
         "root": true,
-        "ignorePatterns": [ "_Archive_/**/*.js", "**/*-config.js" ],
+        "ignorePatterns": [
+            "_Archive_/**/*.js",
+            "**/*-config.js",
+            "lib/external/external.esm.js",
+            "lib/external/external.cjs.js"
+        ],
         "env": {
             "node": true,
             "browser": true,

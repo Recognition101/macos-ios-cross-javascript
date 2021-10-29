@@ -24,6 +24,14 @@ The following are all constants and functions available when the bridge is impor
   * *Returns:*
     * (type: `string`): the encoded string
 
+**wait** `wait(time: number): Promise<void>`
+
+  * Waits for a given number of milliseconds before resolving.
+  * *Arguments:*
+    * `time` (type: `number`): the number of milliseconds to wait before resolving
+  * *Returns:*
+    * (type: `Promise<void>`): a promise resolving after `time` milliseconds
+
 **stringToBytes** `stringToBytes(text: string): Uint8Array | Array<number>`
 
   * Given a string, converts it into a list of byte values.
@@ -113,6 +121,17 @@ should immediately terminate (ex: `--help` was asked for).
     * `form` (type: `ObjectMap<string>`): the form data to submit
   * *Returns:*
     * (type: `Promise<string>`): a promise resolving with the response body
+
+**sendRequest** `sendRequest(url: string, headers: ObjectMap<string>, body: string, method: 'GET' | 'POST' | 'PUT'): Promise<string>`
+
+  * Sends a generic request, returning the response string.
+  * *Arguments:*
+    * `url` (type: `string`): the URL to send the request to
+    * `headers` (type: `ObjectMap<string>`): the map of header data to send
+    * `body` (type: `string`): the body string data to send
+    * `method` (type: `'GET' | 'POST' | 'PUT'`): the HTTP method to use
+  * *Returns:*
+    * (type: `Promise<string>`): a promise resolving to the response body
 
 **uploadFile** `uploadFile(url: string, options: ObjectMap<string>, filePath: string): Promise<string>`
 
@@ -269,27 +288,10 @@ should immediately terminate (ex: `--help` was asked for).
   * *Returns:*
     * (type: `string`): the data that was on the clipboard
 
-**markdownToHtml** `markdownToHtml(str: string): string`
+**external** ``
 
-  * Converts markdown into HTML.
-  * *Arguments:*
-    * `str` (type: `string`): the markdown string to convert
-  * *Returns:*
-    * (type: `string`): the HTML string result
-
-**markedCss** `string`
-
-  * Styles that make a document appear as a GitHub markdown document.
-
-**markedHtml** `markedHtml(body: string, cssOverride: string | null | undefined): string`
-
-  * Creates an HTML document, given body HTML and optional CSS styles.
-  * *Arguments:*
-    * `body` (type: `string`): the string to use as the `<body>` tag's inner HTML
-    * `cssOverride` (type: `string | null | undefined`): CSS text to inject. If
- not given, default GitHub markdown styles will be injected.
-  * *Returns:*
-    * (type: `string`): the full HTML page string
+  * A collection of useful third-party libraries.
+See lib/external/entry.js.
 
 
 

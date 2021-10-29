@@ -8,7 +8,7 @@
 try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
 
 const {
-    getInput, listFiles, output, markedHtml, markdownToHtml,
+    getInput, listFiles, output, external,
     pathJoin, readText, writeText, readJson, error
 } = require('./lib/node.js');
 
@@ -105,7 +105,7 @@ const main = async () => {
     await writeText(pathReadme, readme);
     await writeText(
         pathReadme.replace(/\.md$/, '.html'),
-        markedHtml(markdownToHtml(readme))
+        external.markedTemplates.html(external.marked(readme))
     );
 
     // Build ./lib/api.md

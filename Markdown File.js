@@ -7,7 +7,7 @@
 try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
 
 const {
-    string, getInput, readText, markdownToHtml, markedHtml, showHtml
+    string, getInput, readText, external, showHtml
 } = require('./lib/node.js');
 
 const main = async () => {
@@ -29,7 +29,7 @@ const main = async () => {
     const content = file.indexOf('\n') > -1 ? file : await readText(file);
     const markdown = content || 'Error: File Not Found';
 
-    showHtml(markedHtml(markdownToHtml(markdown)));
+    showHtml(external.markedTemplates.html(external.marked(markdown)));
 };
 
 main();
