@@ -7,23 +7,69 @@
 // eslint-disable-next-line
 try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
 
-const { getInput, downloadText, readJson, log } = require('./lib/node.js');
+const {
+    getInput, downloadText, readJson, log, external
+} = require('./lib/node.js');
+
+/**
+ * @typedef {import("./lib/external/external.cjs").parse5.Document} Document
+ * @typedef {import("./lib/external/external.cjs").parse5.ChildNode} ChildNode
+ * @typedef {import("./lib/external/external.cjs").parse5.Element} Element
+ */
 
 const cosUrl = 'https://consequence.net/upcoming-releases/';
 
-// Regular Expression Strings
-const regexMonth = [
-    'January', 'February', 'March', 'April', 'May', 'June', 'July',
-    'August', 'September', 'October', 'November', 'December'
-].join('|');
-const regexDateString = `(${regexMonth})\\s+(\\d+)`;
-const regexTagString = '<strong.*?>(.*?)<\\/strong>|<em.*?>(.*?)<\\/em>';
-const regexAllString = regexDateString + '|' + regexTagString;
+/**
+ * Given a Parse5 node, select an element whose attributes match test functions.
+ * @typedef {(value: string|undefined) => boolean} Predicate
+ * @param {Document|ChildNode|null} el the node to get the content from
+ * @param {ObjectMap<Predicate|string>} constraints select all nodes that
+ *      return `true` for each of these attributes.
+ * @param {Element[]} [matched] the elements that matched the constraints
+ * @return {Element[]} the elements that matched the constraints
+ */
+const select = (el, constraints, matched = [ ]) => {
+    if (el && 'attrs' in el) {
+        const isMatch = Object.entries(constraints).every(([name, test]) => {
+            const attribute = el.attrs.find(x => x.name === name);
+            const value = name === 'tagName' ? el.tagName : attribute?.value;
+            return typeof test === 'string' ? test === value : test(value);
+        });
+        if (isMatch) {
+            matched.push(el);
+        }
+    }
 
-// Regular Expressions
-const regexAll = new RegExp(regexAllString, 'g');
-const regexTag = new RegExp(regexTagString);
-const regexDate = new RegExp(regexDateString);
+    if (el && 'childNodes' in el) {
+        const children = el.childNodes ?? [];
+        for(const child of children) {
+            select(child, constraints, matched);
+        }
+    }
+
+    return matched;
+};
+
+/**
+ * Given a Parse5 node, gets the text content viewable by a user.
+ * @param {Document|ChildNode|null|undefined} el the node to compile the text of
+ * @return {string} the text content
+ */
+const getTextContent = el => {
+    const isComment = el && (el.nodeName === '#comment' || 'data' in el);
+    const isText = el && 'value' in el;
+    const isLine = el && el.nodeName === 'br';
+    if (isText || isLine || isComment || !el) {
+        return isText ? el.value : (isLine ? '\n' : '');
+    }
+
+    let childText = '';
+    const children = el.childNodes ?? [];
+    for(const child of children) {
+        childText += getTextContent(child);
+    }
+    return childText;
+};
 
 /**
  * Normalizes a string for matching.
@@ -46,30 +92,36 @@ const main = async () => {
     const input = await getInput({ help, inScriptable: true, args: [ ] });
     if (!input) { return; }
 
-    const html = await downloadText(cosUrl);
-    const lines = (html || '').match(regexAll) || [ ];
-
     const artistJsonRaw = await readJson(pathArtists);
     const artistJson = /** @type {LastFm.JsonArtists|null} */(artistJsonRaw);
     const artists = artistJson?.artists ?? [ ];
     const artistsSet = new Set(artists.map(artist => normalize(artist)));
 
-    let curDate = 'RECENT';
-    let curArtist = '';
+    const html = await downloadText(cosUrl);
+    const doc = external.parse5.parse(html);
+    const isContent = /(^|\s)post-content($|\s)/;
+    const content = select(doc, { "class": x => isContent.test(x ?? '') })[0];
 
-    lines.forEach(line => {
-        const dateMatch = line.match(regexDate);
-        if (dateMatch) {
-            curDate = dateMatch[0];
-        } else {
-            const [ , artist, album ] = (line.match(regexTag) || [ ]);
-            if (curArtist) {
-                log(curDate + ': ' + curArtist + ' - ' + (album || ''));
+    let dateText = 'RECENT: ';
+
+    for(const child of content?.childNodes ?? [ ]) {
+        const strong = select(child, { tagName: 'strong' })[0];
+        const em = select(child, { tagName: 'em' })[0];
+        const subChildren = 'childNodes' in child ? child.childNodes : [ ];
+
+        // Match Date Node
+        if (strong && !em && subChildren.length < 2) {
+            dateText = getTextContent(strong);
+
+        // Match Artist/Album Node
+        } else if (strong) {
+            const artist = getTextContent(strong);
+            const album = getTextContent(em);
+            if (artistsSet.has(normalize(artist))) {
+                log(`${dateText} ${artist} - ${album}`);
             }
-            const isTrackedArtist = artistsSet.has(normalize(artist || ''));
-            curArtist = isTrackedArtist ? artist : '';
         }
-    });
+    }
 };
 
 main();
