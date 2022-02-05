@@ -95,28 +95,3 @@ Once set up, run each script with `-h` or `--help` for documentation. Help messa
  * Word Unformat
  * Word Unprefix
 
-### Safari Extensions
-
-This repository also contains Safari extensions.
-
-Shortcuts:
-
-| Shortcut Name        | Script Name         |
-| -------------------- | ------------------- |
-| Click Right          | `clickRight`        |
-| Click Anchor         | `clickAnchor`       |
-| Page Inspector       | `pageInspector`     |
-| Page Video Carousel  | `pageVideoCarousel` |
-| Page Video Native    | `pageVideoNative`   |
-| Page Humble DRM Free | `pageHumbleDrmFree` |
-| Page Humble Sale     | `pageHumbleSale`    |
-| Page Turnip Filler   | `pageTurnipFiller`  |
-
-
-Steps Per Shortcut (Accepts Safari Pages):
-
-1. Run script (Extension) More(Texts: [ ScriptName ], InApp: (Off), Show: (Off))
-2. Run Javascript on (`$SHORTCUT-INPUT`) More(Content: "`$PREVIOUS`")
-
-Note: ScriptName is replaced with each of the Script Names above (ex: `clickRight`)
-
