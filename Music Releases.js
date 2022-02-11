@@ -100,7 +100,7 @@ const main = async () => {
     const html = await downloadText(cosUrl);
     const doc = external.parse5.parse(html);
     const isContent = /(^|\s)post-content($|\s)/;
-    const content = select(doc, { "class": x => isContent.test(x ?? '') })[0];
+    const content = select(doc, { 'class': x => isContent.test(x ?? '') })[0];
 
     let dateText = 'RECENT: ';
 
