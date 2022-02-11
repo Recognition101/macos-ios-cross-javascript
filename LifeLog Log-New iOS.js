@@ -92,8 +92,7 @@ const main = async () => {
 
     if (!input) { return; }
 
-    /** @type {LifeLog|null} */
-    const logJson = (await readJson(pathLog));
+    const logJson = /** @type {LifeLog|null} */(await readJson(pathLog));
     /** @type {LifeLog} */
     const log = logJson || { activities: [], log: {}, finish: {} };
     const appId = getItunesId(string(input && input.url));

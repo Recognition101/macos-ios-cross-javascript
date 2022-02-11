@@ -41,8 +41,7 @@ LifeLog JSON Type: $/types/lifeLog.d.ts::LifeLog`;
 
 const main = async () => {
 
-    /** @type {LifeLog|null} */
-    const logJson = (await readJson(pathLog));
+    const logJson = /** @type {LifeLog|null} */(await readJson(pathLog));
     /** @type {LifeLog} */
     const log = logJson || { activities: [], log: {}, finish: {} };
 
