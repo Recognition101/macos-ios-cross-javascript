@@ -104,12 +104,12 @@ should immediately terminate (ex: `--help` was asked for).
   * *Returns:*
     * (type: `Promise<Object|null>`): downloaded JSON or null if invalid
 
-**downloadImage** `downloadImage(url: string, imagePath: string): Promise<number>`
+**downloadFile** `downloadFile(url: string, filePath: string): Promise<number>`
 
-  * Downloads an image from a URL and stores it at the given imagePath.
+  * Downloads a file from a URL and stores it at the given filePath.
   * *Arguments:*
     * `url` (type: `string`): the URL to download from
-    * `imagePath` (type: `string`): the local path to store the image at
+    * `filePath` (type: `string`): the local path to store the file
   * *Returns:*
     * (type: `Promise<number>`): resolves to the status code for the request
 

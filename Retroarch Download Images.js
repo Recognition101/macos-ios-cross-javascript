@@ -10,7 +10,7 @@ try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
 const {
     getInput, string, output, error, log,
     pathJoin, listFiles, isFile, makeDirectory, readJson,
-    downloadImage, encodeURIComponent
+    downloadFile, encodeURIComponent
 } = require('./lib/node.js');
 
 /** @type {[ 'Named_Boxarts', 'Named_Snaps', 'Named_Titles' ]}*/
@@ -67,7 +67,7 @@ const downloadImages = async (imageRootPath, systemUrls, name) => {
     const hasSuffix = name.endsWith(')');
     const suffix = hasSuffix ? '' : (suffixMap[name] || ' (USA)');
     const nameUrl = encodeURIComponent((name + suffix).replace(/&/g, '_'));
-    const fileName = name + '.png';
+    const fileName = name.replace(/&/g, '_') + '.png';
 
     for(const type of imageTypes) {
         const typePadded = type.padStart(15, ' ');
@@ -79,7 +79,7 @@ const downloadImages = async (imageRootPath, systemUrls, name) => {
 
         for(const url of urls) {
             if (!exists && !successUrl) {
-                const code = await downloadImage(url, filePath);
+                const code = await downloadFile(url, filePath);
                 successUrl = code === 200 ? url : successUrl;
             }
         }

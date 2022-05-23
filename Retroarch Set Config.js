@@ -20,7 +20,32 @@ const configPatchMap = {
     menu_swap_ok_cancel_buttons: 'true',
 
     // This sets the menu time format to `MM-DD HH:MM AMPM`
-    menu_timedate_style: '20'
+    menu_timedate_style: '20',
+
+    // XMB UI
+    menu_driver: 'xmb',
+    xmb_vertical_thumbnails: 'true',
+
+    // Thumbnail Configuration (0 = none, 1 = snaps, 2 = titles, 3 = boxarts)
+    menu_thumbnails: '3',
+    menu_left_thumbnails: '2',
+
+    // Disable Most Settings
+    kiosk_mode_enable: 'false',
+
+    // Hide Unused Menus
+    content_show_add: 'false',
+    content_show_explore: 'false',
+    content_show_favorites: 'false',
+    content_show_history: 'true',
+    content_show_images: 'false',
+    content_show_video: 'false',
+    content_show_music: 'false',
+    content_show_netplay: 'false',
+    content_show_playlists: 'true',
+    content_show_settings: 'false',
+    content_show_add_entry: 'false',
+    content_show_contentless_cores: 'false'
 };
 
 

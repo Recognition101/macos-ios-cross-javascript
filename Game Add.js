@@ -10,7 +10,7 @@
 try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
 
 const {
-    getInput, string, downloadJson, readJson, writeJson, downloadImage,
+    getInput, string, downloadJson, readJson, writeJson, downloadFile,
     output, error, pathJoin, makeDirectory
 } = require('./lib/node.js');
 
@@ -123,7 +123,7 @@ const main = async () => {
 
     // Download / add new data
     await makeDirectory(pathJoin(pathRoot, fileNameIcon));
-    await downloadImage(artUrl, pathIcon);
+    await downloadFile(artUrl, pathIcon);
     const appsJson = await readJson(pathData);
     const apps = /** @type {FeaturedGames|null} */(appsJson) || { };
 

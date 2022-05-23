@@ -56,6 +56,8 @@ Once set up, run each script with `-h` or `--help` for documentation. Help messa
  * Pass New Words
  * Retroarch Doom Config
  * Retroarch Download Images
+ * Retroarch Download Pico8
+ * Retroarch Download Tree
  * Retroarch Make Playlist
  * Retroarch Set Config
  * Retroarch Steam Config

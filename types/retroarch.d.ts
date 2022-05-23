@@ -59,6 +59,8 @@ declare namespace RetroArch {
          * (ex: "~/Documents/RetroArch/downloads/SNES/%r")
          */
         path: string;
+        /** An optional list of items to manually add to the playlist. */
+        manual?: RetroArch.PlaylistItem[];
     }
 
     /** Describes an LBL playlist object. */
@@ -149,4 +151,20 @@ declare namespace RetroArch {
         /** The CLI arguments to run `exe` with when running the shortcut. */
         LaunchOptions: string;
     }
+
+    interface DownloadConfig {
+        /** The IP Address of the RetroArch server to download from. */
+        ip: string;
+        /** The folder path to use as the root of the tree to download. */
+        pathRemote: string;
+    }
+
+    type FileServerList = FileServerListItem[];
+
+    interface FileServerListItem {
+        path: string;
+        name: string;
+        size?: number;
+    }
+
 }

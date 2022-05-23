@@ -90,6 +90,18 @@ const makePlaylist = async (workingPath, playlist, substitutions) => {
         }
     }
 
+    // Manual Items
+    for(const item of playlist.manual || [ ]) {
+        playlistOutput.items.push({
+            path: substitute(substitutions, item.path),
+            label: substitute(substitutions, item.label),
+            core_path: substitute(substitutions, item.core_path),
+            core_name: substitute(substitutions, item.core_name),
+            crc32: substitute(substitutions, item.crc32),
+            db_name: substitute(substitutions, item.db_name)
+        });
+    }
+
     // Write JSON
     await writeJson(pathJoin(playlistsPath, dbName), playlistOutput);
 };
