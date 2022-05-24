@@ -45,7 +45,11 @@ const configPatchMap = {
     content_show_playlists: 'true',
     content_show_settings: 'false',
     content_show_add_entry: 'false',
-    content_show_contentless_cores: 'false'
+    content_show_contentless_cores: 'false',
+
+    // Automatically Save Every 5m
+    savestate_auto_save: 'true',
+    autosave_interval: '300'
 };
 
 
