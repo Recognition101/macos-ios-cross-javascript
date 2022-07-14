@@ -13,14 +13,17 @@ const {
 
 /** @type {ObjectMap<string>} */
 const configPatchMap = {
-    // This sets "Menu Toggle" Hotkey to L3 + R3.
-    input_menu_toggle_gamepad_combo: '2',
+    // This sets "Menu Toggle" Hotkey to start + select. '2' is L3 + R3.
+    input_menu_toggle_gamepad_combo: '4',
 
     // This makes A -> OK, B -> Cancel
     menu_swap_ok_cancel_buttons: 'true',
 
     // This sets the menu time format to `MM-DD HH:MM AMPM`
     menu_timedate_style: '20',
+
+    // All controllers should control menu (Xbox + SNES on Windows)
+    all_users_control_menu: 'true',
 
     // XMB UI
     menu_driver: 'xmb',

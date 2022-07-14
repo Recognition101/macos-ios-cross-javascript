@@ -56,8 +56,8 @@ const downloadFolder = async (ip, pathInput, pathOutput) => {
 const pathDownloadJson = '$/retroarch/download-config.json';
 
 const help = '' +
-`Given a RetroArch file server operating at <ip>, spiders all files within
-<pathRemote> and downloads them to "<pathLocal>/<currentDateTime>/".
+`Given a RetroArch file server operating at <ip>, downloads all files from
+<pathRemote> to "<pathLocal>/<currentDateTime>/<pathRemote>/".
 
 Note that while all variables above can be specified as arguments, some may
 optionally be provided within the RetroArch Download JSON.
@@ -99,21 +99,31 @@ const main = async () => {
 
     const pathLocal = string(input.pathLocal);
     const ip = string(input.ip) || config?.ip || '';
-    const pathRemote = string(input.pathRemote) || config?.pathRemote || '';
+    const pathRemoteRaw = string(input.pathRemote) || config?.pathRemote || '';
+    const pathRemotes = typeof pathRemoteRaw === 'string'
+        ? [ pathRemoteRaw ]
+        : pathRemoteRaw;
 
     if (!ip) {
         return error('Retroarch Download Tree', 'No IP Address Provided.');
     }
 
-    if (!pathRemote) {
+    const isEmptyRemote = pathRemotes.length === 1 && pathRemotes[0] === '';
+    if (pathRemotes.length === 0 || isEmptyRemote) {
         return error('Retroarch Download Tree', 'No Remote Path Provided.');
     }
 
     const now = (new Date()).toISOString().replace(/[:.]/g, '-');
-    const pathOutput = pathJoin(pathLocal, now);
-    await makeDirectory(pathOutput);
+    const pathOutputRoot = pathJoin(pathLocal, now);
+    await makeDirectory(pathOutputRoot);
 
-    const count = await downloadFolder(ip, pathRemote, pathOutput);
+    let count = 0;
+    for(const pathRemote of pathRemotes) {
+        const name = pathRemote.replace(/^\/|\/$/g, '').replaceAll('/', '-');
+        const pathOutput = pathJoin(pathOutputRoot, name);
+        await makeDirectory(pathOutput);
+        count += await downloadFolder(ip, pathRemote, pathOutput);
+    }
 
     output('Retroarch Download Tree', `Downloaded ${count} files.`);
 };

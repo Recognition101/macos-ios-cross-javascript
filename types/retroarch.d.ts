@@ -156,7 +156,7 @@ declare namespace RetroArch {
         /** The IP Address of the RetroArch server to download from. */
         ip: string;
         /** The folder path to use as the root of the tree to download. */
-        pathRemote: string;
+        pathRemote: string | string[];
     }
 
     type FileServerList = FileServerListItem[];
