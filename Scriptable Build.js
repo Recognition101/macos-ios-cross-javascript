@@ -5,12 +5,12 @@
 /// <reference path="./types/build.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, listFiles, output, external,
     pathJoin, readText, writeText, readJson, error
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 const pathFolder = '$/';
 const pathReadme = '$/README.md';
@@ -53,10 +53,11 @@ const help = '' +
     2. Generating the ./lib/API.md file.
 
 Setup: Create $/lib/node-ast.json on macOS by running:
-    jsdoc -X ./lib/node.js > ./lib/data/api-ast.json`;
+    jsdoc -X ./lib/lib-node.js > ./lib/data/api-ast.json`;
 
 const main = async () => {
-    const input = await getInput({ help, inScriptable: false, args: [ ] });
+    const name = 'Scriptable Build';
+    const input = await getInput({ name, help, inScriptable: false });
     if (!input) { return; }
 
     // Read Files

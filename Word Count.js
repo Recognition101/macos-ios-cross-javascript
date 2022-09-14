@@ -3,12 +3,13 @@
 // icon-color: blue; icon-glyph: book-open; share-sheet-inputs: plain-text;
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
-const { getInput, string, output, paste } = require('./lib/node.js');
+const { getInput, string, output, paste } = require('./lib/lib.js');
 
 const mainWordCount = async () => {
     const input = await getInput({
+        name: 'Word Count',
         help: 'Counts the number of words in a given string.',
         inScriptable: false,
         args: [{

@@ -13,5 +13,5 @@
     "resolveJsonModule": true
   },
   "include": ["./*.js", "./**/*-config.js" ],
-  "files": [ "./lib/scriptable.js" ]
+  "files": [ "./lib/lib-scriptable.js" ]
 }

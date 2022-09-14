@@ -5,11 +5,11 @@
 ///<reference path="./types/steam.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, downloadJson, readJson, writeJson, status, error
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 // To get Steam API Key: https://steamcommunity.com/dev/apikey
 const apiUrl = 'http://api.steampowered.com/';
@@ -36,7 +36,8 @@ Output JSON Path: ${pathOutput}
 Output JSON Type: $/types/steam.d.ts::SteamData.UserData`;
 
 const main = async () => {
-    const input = await getInput({ help, inScriptable: true, args: [ ] });
+    const name = 'SteamData Update';
+    const input = await getInput({ name, help, inScriptable: true });
     if (!input) { return; }
 
     const configJson = (await readJson(pathConfig));

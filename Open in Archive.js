@@ -4,12 +4,13 @@
 // share-sheet-inputs: plain-text, url;
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
-const { getInput, string, open, paste } = require('./lib/node.js');
+const { getInput, string, open, paste } = require('./lib/lib.js');
 
 const main = async () => {
     const input = await getInput({
+        name: 'Open in Archive',
         help: 'Opens a page on an internet archive service.',
         inScriptable: true,
         args: [{

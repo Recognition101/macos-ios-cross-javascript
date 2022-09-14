@@ -7,12 +7,12 @@
 ///<reference path="./types/tunesQuery.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getFileSize, pathJoin, listFiles, moveFile, writeText, isDirectory,
     getInput, string, output,
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 const mainWadInfo = [
     { name: 'doom-1.wad', size: 10898 },
@@ -85,6 +85,7 @@ const help = `Crawl a folder (and children). In every folder with a *.wad file:
 
 const main = async () => {
     const input = await getInput({
+        name: 'Retroarch Doom Config',
         help,
         inScriptable: true,
         args: [{

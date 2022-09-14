@@ -3,12 +3,12 @@
 // icon-color: light-brown; icon-glyph: th; share-sheet-inputs: plain-text, url;
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, string, readJson, output, error, pathJoin, listFiles,
     isFile, log, copyFile, makeDirectory
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 const nameOutput = 'config';
 const nameImages = 'images';
@@ -114,6 +114,7 @@ Setup: Use RetroArch Steam JSON from "Retroarch Steam Config.js".`;
 
 const main = async () => {
     const input = await getInput({
+        name: 'Retroarch Steam Grid',
         help,
         inScriptable: true,
         args: [{

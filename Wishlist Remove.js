@@ -5,14 +5,13 @@
 ///<reference path="./types/wishlist.d.ts" />
 ///<reference path="./types/tunesQuery.d.ts" />
 
-const isNode = typeof require !== 'undefined';
 // @ts-ignore
 // eslint-disable-next-line
-require = isNode ? require : (() => importModule('lib/scriptable'));
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, string, readJson, writeJson, error, output 
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 const pathWish = '$/wishlist/wishlist.json';
 
@@ -23,6 +22,7 @@ Wishlist JSON Type: $/types/wishlist.d.ts::Wishlist.AppMap`;
 
 const main = async () => {
     const input = await getInput({
+        name: 'Wishlist Remove',
         help,
         inScriptable: false,
         args: [{

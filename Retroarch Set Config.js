@@ -5,11 +5,11 @@
 /// <reference path="./types/retroarch.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, string, output, readText, writeText
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 /** @type {ObjectMap<string>} */
 const configPatchMap = {
@@ -58,6 +58,7 @@ const configPatchMap = {
 
 const main = async () => {
     const input = await getInput({
+        name: 'Retrarch Set Config',
         help: 'Updates a retroarch.cfg with preferred custom config.',
         inScriptable: false,
         args: [{

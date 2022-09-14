@@ -4,9 +4,9 @@
 ///<reference path="./types/caller.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
-const { getInput, readJson, open, output, error } = require('./lib/node.js');
+const { getInput, readJson, open, output, error } = require('./lib/lib.js');
 const pathBook = '$/caller/contacts.json';
 const help = `Call or SMS a favorite contact listed in the Contacts JSON.
 
@@ -19,6 +19,7 @@ const main = async () => {
     const book = /** @type {Caller.Book|null} */(await readJson(pathBook));
     const contacts = book?.contacts ?? [ ];
     const input = await getInput({
+        name: 'Caller',
         help,
         inScriptable: true,
         args: [{

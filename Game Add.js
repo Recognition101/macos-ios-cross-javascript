@@ -7,12 +7,12 @@
 ///<reference path="./types/tunesQuery.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, string, downloadJson, readJson, writeJson, downloadFile,
     output, error, pathJoin, makeDirectory
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 const fileNameData = 'data.json';
 const fileNameIcon = 'images';
@@ -32,6 +32,7 @@ const main = async () => {
     const iTunesUrl = 'https://itunes.apple.com/lookup?id=';
 
     const input = await getInput({
+        name: 'Game Add',
         help,
         inScriptable: true,
         args: [{

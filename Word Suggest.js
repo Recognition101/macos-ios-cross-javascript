@@ -4,11 +4,11 @@
 // icon-glyph: pencil-alt; share-sheet-inputs: plain-text;
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, string, error, paste, readText, log
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 /**
  * Computes the edit distance between two strings.
@@ -50,6 +50,7 @@ const simplify = str => str.replace(/[aeiouy0-9 _]/g, '');
 
 const main = async () => {
     const input = await getInput({
+        name: 'Word Suggest',
         help: 'Gets similar words to what was typed.',
         inScriptable: true,
         args: [{

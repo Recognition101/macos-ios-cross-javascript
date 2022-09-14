@@ -4,14 +4,15 @@
 // share-sheet-inputs: plain-text, url;
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     string, getInput, readText, external, showHtml
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 const main = async () => {
     const input = await getInput({
+        name: 'Markdown File',
         help: 'Converts a markdown file (or string) to HTML and displays it.',
         inScriptable: true,
         args: [{

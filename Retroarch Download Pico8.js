@@ -5,7 +5,7 @@
 /// <reference path="./types/retroarch.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput,
@@ -17,7 +17,7 @@ const {
     isFile,
     log,
     output
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 /**
  * @typedef {Object} Thread represents a Pico-8 BBS Thread
@@ -74,6 +74,7 @@ const gameMatcher = /`([^`]+)`[,'" \n]+\/bbs\/thumbs\/(.+?)\.png/g;
  */
 const main = async () => {
     const input = await getInput({
+        name: 'Retroarch Download Pico8',
         help,
         inScriptable: true,
         args: [{

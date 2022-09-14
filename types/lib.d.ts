@@ -1,7 +1,8 @@
 interface ArgStructure {
+    name: string;
     help: string;
     inScriptable: boolean;
-    args: ArgDescription[];
+    args?: ArgDescription[];
     bookmarks?: string[];
 }
 

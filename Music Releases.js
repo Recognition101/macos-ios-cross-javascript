@@ -5,11 +5,11 @@
 ///<reference path="./types/LastFm.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, downloadText, readJson, log, external
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 /**
  * @typedef {import("./lib/external/external.cjs").parse5.Document} Document
@@ -89,7 +89,8 @@ Artists JSON Path: ${pathArtists};
 Artists JSON Type: $/types/LastFm.d.ts::LastFm.JsonArtists`;
 
 const main = async () => {
-    const input = await getInput({ help, inScriptable: true, args: [ ] });
+    const name = 'Music Releases';
+    const input = await getInput({ name, help, inScriptable: true });
     if (!input) { return; }
 
     const artistJsonRaw = await readJson(pathArtists);

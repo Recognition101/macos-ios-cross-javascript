@@ -4,11 +4,11 @@
 /// <reference path="./types/retroarch.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 const {
     getInput, string, error, stringToBytes, output,
     readJson, writeBytes, makeDirectory, listFiles, pathJoin
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 const nameOutput = 'config';
 const nameOutputVdf = 'shortcuts.vdf';
@@ -158,6 +158,7 @@ RetroArch Steam JSON Type: $/types/retroarch.d.ts::Retroarch.SteamConfig`;
 
 const main = async () => {
     const input = await getInput({
+        name: 'Retroarch Steam Config',
         help,
         inScriptable: true,
         args: [{

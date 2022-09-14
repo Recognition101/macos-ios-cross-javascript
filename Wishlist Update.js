@@ -6,11 +6,11 @@
 ///<reference path="./types/tunesQuery.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, downloadJson, readJson, writeJson, status, log, output
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 const pathWish = '$/wishlist/wishlist.json';
 const pathSale = '$/wishlist/wishlist-sale.json';
@@ -23,7 +23,8 @@ Sale JSON Path: ${pathSale}
 Sale JSON Type: $/types/wishlist.d.ts::Wishlist.AppMap`;
 
 const main = async () => {
-    const input = await getInput({ help, inScriptable: true, args: [ ] });
+    const name = 'Wishlist Update';
+    const input = await getInput({ name, help, inScriptable: true });
     if (!input) { return; }
 
     const iTunesUrl = 'https://itunes.apple.com/lookup?id=';

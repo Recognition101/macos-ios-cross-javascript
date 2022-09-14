@@ -5,12 +5,12 @@
 /// <reference path="./types/retroarch.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, string, output, error, status,
     pathJoin, listFiles, isFile, makeDirectory, writeJson, readJson
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 const outputName = 'config';
 const playlistsName = 'playlists';
@@ -122,6 +122,7 @@ RA Playlist JSON Type: ./types/retroarch.d.ts::Retroarch.MakePlaylistConfig`;
 
 const main = async () => {
     const input = await getInput({
+        name: 'Retroarch Make Playlist',
         help,
         inScriptable: true,
         args: [{

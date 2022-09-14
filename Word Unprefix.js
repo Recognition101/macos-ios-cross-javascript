@@ -3,12 +3,13 @@
 // icon-color: blue; icon-glyph: cut; share-sheet-inputs: plain-text;
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
-const { getInput, string, copy, paste, output } = require('./lib/node.js');
+const { getInput, string, copy, paste, output } = require('./lib/lib.js');
 
 const mainRemoveFormatting = async () => {
     const input = await getInput({
+        name: 'Word Unprefix',
         help: 'Trims non-word prefixes from the each line.',
         inScriptable: false,
         args: [{

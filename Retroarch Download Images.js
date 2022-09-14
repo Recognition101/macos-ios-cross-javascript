@@ -5,13 +5,13 @@
 /// <reference path="./types/retroarch.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, string, output, error, log,
     pathJoin, listFiles, isFile, makeDirectory, readJson,
     downloadFile, encodeURIComponent
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 /** @type {[ 'Named_Boxarts', 'Named_Snaps', 'Named_Titles' ]}*/
 const imageTypes = [ 'Named_Boxarts', 'Named_Snaps', 'Named_Titles' ];
@@ -147,6 +147,7 @@ RetroArch Images JSON Type: $/types/retroarch.d.ts::RetroArch.ImageConfig`;
  */
 const main = async () => {
     const input = await getInput({
+        name: 'Retroarch Download Images',
         help,
         inScriptable: true,
         args: [{

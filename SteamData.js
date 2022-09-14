@@ -3,15 +3,16 @@
 // icon-color: cyan; icon-glyph: gamepad;
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
-const { getInput, compile } = require('./lib/node.js');
+try { require; } catch(e) { require = importModule; }
+const { getInput, compile } = require('./lib/lib.js');
 
 const help = `Displays all Steam User Data.
 
 Setup: Use "SteamData Update" to download the data.`;
 
 const main = async () => {
-    const input = await getInput({ help, inScriptable: true, args: [ ] });
+    const name = 'SteamData';
+    const input = await getInput({ name, help, inScriptable: true });
     if (!input) { return; }
     compile('$/steamdata');
 };

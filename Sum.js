@@ -3,15 +3,16 @@
 // icon-color: blue; icon-glyph: plus; share-sheet-inputs: plain-text, url;
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
-const { getInput, string, paste, output } = require('./lib/node.js');
+const { getInput, string, paste, output } = require('./lib/lib.js');
 
 const getCommaGroups = /,(\d{3})/g;
 const getNumbers = /-?\d+(\.\d+)?(e-?\d+)?/g;
 
 const main = async () => {
     const input = await getInput({
+        name: 'Sum',
         help: 'Sums a space separated list of numbers.',
         inScriptable: false,
         args: [{

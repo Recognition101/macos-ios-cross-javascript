@@ -20,8 +20,8 @@ Instead, use these four lines to import the correct set of library functions dep
 ```js
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
-const lib = require('./lib/node.js');
+try { require; } catch(e) { require = importModule; }
+const lib = require('./lib/lib.js');
 ```
 
 The `lib` variable will then contain the library, with functions to:

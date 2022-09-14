@@ -4,11 +4,11 @@
 // share-sheet-inputs: plain-text, url;
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     string, getInput, readText, writeText, external, output
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 const pathOut = '$/markdown/output.html';
 const help = `Converts a markdown file (or string) to HTML and saves it.
@@ -17,6 +17,7 @@ Output File Path: ${pathOut}`;
 
 const main = async () => {
     const input = await getInput({
+        name: 'Markdown Compile',
         help,
         inScriptable: false,
         args: [{

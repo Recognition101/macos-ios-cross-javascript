@@ -32,3 +32,4 @@ shuttle/
 
 # OS files
 .DS_Store
+.Trash

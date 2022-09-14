@@ -7,11 +7,11 @@
 ///<reference path="./types/tunesQuery.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, string, downloadJson, readJson, writeJson, error, output
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 const pathWish = '$/wishlist/wishlist.json';
 
@@ -24,6 +24,7 @@ const main = async () => {
     const iTunesUrl = 'https://itunes.apple.com/lookup?id=';
 
     const input = await getInput({
+        name: 'Wishlist Add',
         help,
         inScriptable: false,
         args: [{

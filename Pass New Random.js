@@ -3,9 +3,9 @@
 // icon-color: purple; icon-glyph: key; share-sheet-inputs: plain-text, url;
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
-const { getInput, copy, output } = require('./lib/node.js');
+const { getInput, copy, output } = require('./lib/lib.js');
 
 /**
  * @typedef {Object} PwGenElement an element we can add to a password
@@ -64,6 +64,7 @@ const symbols = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~';
 
 const main = async () => {
     const input = await getInput({
+        name: 'Pass New Random',
         help: 'Given some rules, generate a random pronounceable password.',
         inScriptable: false,
         args: [{

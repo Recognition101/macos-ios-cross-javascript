@@ -3,9 +3,9 @@
 // icon-color: purple; icon-glyph: socks; share-sheet-inputs: plain-text, url;
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
-const { getInput, string, output } = require('./lib/node.js');
+const { getInput, string, output } = require('./lib/lib.js');
 
 const minuteMs = 1000 * 60;
 const hourMs = minuteMs * 60;
@@ -26,6 +26,7 @@ const date = arg => string(arg)
 
 const main = async () => {
     const input = await getInput({
+        name: 'Laundry Delay',
         help: 'Calculates the laundry delay to input when doing laundry.',
         inScriptable: false,
         args: [{

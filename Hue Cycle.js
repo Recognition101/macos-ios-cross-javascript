@@ -7,11 +7,11 @@
 ///<reference path="./types/philipshue.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, error, readJson, downloadJson, wait, output, sendRequest
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 const pathFolder = '$/huecycle';
 const pathConfig = `${pathFolder}/huecycle-config.js`;
@@ -164,7 +164,8 @@ Hue Cycle Config JSON Path: ${pathConfig}
 Hue Cycle Config JSON Type: $/types/huecycle.d.ts::HueCycle.Config`;
 
 const main = async () => {
-    const input = await getInput({ help, inScriptable: false, args: [ ] });
+    const name = 'Hue Cycle';
+    const input = await getInput({ name, help, inScriptable: false });
     if (!input) { return; }
 
     const configJson = await readJson(pathConfig);

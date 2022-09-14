@@ -7,11 +7,11 @@
 ///<reference path="./types/philipshue.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, output, error, readJson, writeJson, downloadJson, makeDirectory
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 const now = new Date();
 const nowString = [
@@ -36,7 +36,8 @@ Temperature Log JSON Path: ${pathLog}
 Temperature Log JSON Type: $/types/temperature.d.ts::Temperature.Log`;
 
 const main = async () => {
-    const input = await getInput({ help, inScriptable: false, args: [ ] });
+    const name = 'Temperature Log';
+    const input = await getInput({ name, help, inScriptable: false });
     if (!input) { return; }
 
     const configJson = await readJson(pathConfig);

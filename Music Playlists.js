@@ -5,12 +5,12 @@
 ///<reference path="./types/music.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, string, readJson, writeJson, error, output, writeText,
     listFiles, pathJoin, isDirectory, makeDirectory
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 const pathTop  = '$/music/top-tracks.json';
 const pathSimilar  = '$/music/similar-artists.json';
@@ -379,6 +379,7 @@ const writeClusterPlaylist = async (
 
 const main = async () => {
     const input = await getInput({
+        name: 'Music Playlists',
         help,
         inScriptable: true,
         args: [ {

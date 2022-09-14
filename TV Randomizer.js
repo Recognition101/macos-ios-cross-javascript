@@ -5,9 +5,9 @@
 ///<reference path="./types/tv.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
-const { getInput, string, readJson, output, error } = require('./lib/node.js');
+const { getInput, string, readJson, output, error } = require('./lib/lib.js');
 
 /**
  * Gets the season and episode number of a show at a given index.
@@ -47,6 +47,7 @@ const main = async () => {
     const config = /** @type {Tv.ShowConfig|null} */(configJson);
     const shows = config?.shows ?? [ ];
     const input = await getInput({
+        name: 'TV Randomizer',
         help,
         inScriptable: false,
         args: [{

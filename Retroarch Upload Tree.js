@@ -7,12 +7,12 @@
 ///<reference path="./types/tunesQuery.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     pathJoin, listFiles, isDirectory,
     getInput, string, output, uploadForm, uploadFile, status
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 const uploadPath = 'upload';
 const createPath = 'create';
@@ -48,6 +48,7 @@ const mirror = async (url, local, remote) => {
 
 const main = async () => {
     const input = await getInput({
+        name: 'Retroarch Upload Tree',
         help: 'Uploads a directory (recursively) to a given server.',
         inScriptable: true,
         args: [{

@@ -5,11 +5,11 @@
 
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, readJson, writeJson, error, output
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 const pathLog = '$/turnip/turnip-log.json';
 const help = `Adds a turnip price to the log. Sets this key/value pair:
@@ -21,6 +21,7 @@ Turnip JSON Type: ObjectMap<number>`;
 
 const main = async () => {
     const input = await getInput({
+        name: 'Turnip Add',
         help,
         inScriptable: false,
         args: [{

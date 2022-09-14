@@ -3,14 +3,15 @@
 // icon-color: purple; icon-glyph: key; share-sheet-inputs: plain-text, url;
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, string, readText, copy, output, error
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 const main = async () => {
     const input = await getInput({
+        name: 'Pass New Words',
         help: 'Generates a random series of concatenated words.',
         inScriptable: false,
         args: [{

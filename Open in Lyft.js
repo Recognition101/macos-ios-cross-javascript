@@ -3,12 +3,13 @@
 // icon-color: deep-blue; icon-glyph: taxi; share-sheet-inputs: plain-text, url;
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
-const { getInput, string, open, error, output } = require('./lib/node.js');
+const { getInput, string, open, error, output } = require('./lib/lib.js');
 
 const main = async () => {
     const input = await getInput({
+        name: 'Open in Lyft',
         help: 'Gets a lyft ride to the passed in URL.',
         inScriptable: true,
         args: [{

@@ -3,9 +3,9 @@
 // icon-color: blue; icon-glyph: clock; share-sheet-inputs: plain-text, url;
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
-const { getInput, string, output } = require('./lib/node.js');
+const { getInput, string, output } = require('./lib/lib.js');
 
 const main = async () => {
     const now = new Date();
@@ -18,6 +18,7 @@ const main = async () => {
         + ' ' + (now.getHours() > 11 ? 'PM' : 'AM');
 
     const input = await getInput({
+        name: 'TimeStamp Get',
         help: 'Gets a Unix epoch timestamp from a human readable value.',
         inScriptable: false,
         args: [{

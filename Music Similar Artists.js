@@ -5,12 +5,12 @@
 ///<reference path="./types/LastFm.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, downloadJson, readJson, writeJson,
     error, log, status, encodeURIComponent, string
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 /**
  * Encodes a map of key/values into a URI string.
@@ -38,7 +38,8 @@ Output JSON Path: ${pathSimilar}
 Output JSON Type: $/types/LastFm.d.ts::LastFm.JsonSimilarArtists`;
 
 const main = async () => {
-    const input = await getInput({ help, inScriptable: true, args: [ ] });
+    const name = 'Music Similar Artists';
+    const input = await getInput({ name, help, inScriptable: true });
     if (!input) { return; }
 
     const artistJson = await readJson(pathArtists);

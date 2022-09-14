@@ -5,7 +5,7 @@
 /// <reference path="./types/retroarch.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput,
@@ -18,7 +18,7 @@ const {
     downloadFile,
     encodeURIComponent,
     output
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 /**
  * Downloads a folder from a RetroArch file server.
@@ -72,6 +72,7 @@ RetroArch Download JSON Type: $/types/retroarch.d.ts::RetroArch.DownloadConfig`;
  */
 const main = async () => {
     const input = await getInput({
+        name: 'Retroarch Download Tree',
         help,
         inScriptable: true,
         args: [{

@@ -4,12 +4,12 @@
 /// <reference path="./types/LastFm.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, string, error, output, status,
     downloadJson, readJson, writeJson, makeDirectory
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 const pathOutputFolder = '$/music/';
 const pathOutput = '$/music/history.json';
@@ -27,6 +27,7 @@ Output JSON Type: $/types/LastFm.d.ts::LastFm.JsonTracks`;
 
 const main = async () => {
     const input = await getInput({
+        name: 'LastFM History',
         help,
         inScriptable: true,
         args: [{

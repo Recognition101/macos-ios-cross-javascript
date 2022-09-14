@@ -6,11 +6,11 @@
 ///<reference path="./types/lifeLog.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, readJson, writeJson, output, error, string
-} = require('./lib/node.js');
+} = require('./lib/lib.js');
 
 /**
  * Converts a name from camel case into a title.
@@ -50,6 +50,7 @@ const main = async () => {
     const activityTitles = activities.map(x => getActivityTitle(x));
 
     const input = await getInput({
+        name: 'LifeLog Restart',
         help,
         inScriptable: false,
         args: [{

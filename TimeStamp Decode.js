@@ -3,9 +3,9 @@
 // icon-color: blue; icon-glyph: clock; share-sheet-inputs: plain-text, url;
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
-const { getInput, string, output, error } = require('./lib/node.js');
+const { getInput, string, output, error } = require('./lib/lib.js');
 
 const minuteMs = 1000 * 60;
 const dayMs = minuteMs * 60 * 24;
@@ -14,6 +14,7 @@ const tzOffsetMs = (new Date()).getTimezoneOffset() * minuteMs;
 const main = async () => {
 
     const input = await getInput({
+        name: 'TimeStamp Decode',
         help: 'Converts a unix epoch timestamp (ms) to a human time.',
         inScriptable: false,
         args: [{

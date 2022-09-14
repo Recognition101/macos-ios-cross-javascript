@@ -3,12 +3,13 @@
 // icon-color: deep-blue; icon-glyph: key; share-sheet-inputs: plain-text, url;
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
-const { getInput, string, open, paste } = require('./lib/node.js');
+const { getInput, string, open, paste } = require('./lib/lib.js');
 
 const main = async () => {
     const input = await getInput({
+        name: 'Open Key in Steam',
         help: 'Given a Steam Key, open the key activation page.',
         inScriptable: true,
         args: [{

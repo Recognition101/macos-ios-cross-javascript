@@ -7,9 +7,9 @@
 ///<reference path="./types/featuredGame.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
-try { require; } catch(e) { require = () => importModule('lib/scriptable'); }
+try { require; } catch(e) { require = importModule; }
 
-const lib = require('./lib/node.js');
+const lib = require('./lib/lib.js');
 const { getInput, string, readJson, writeJson, downloadJson, status } = lib;
 
 const iTunesUrl = 'https://itunes.apple.com/lookup?id=';
@@ -29,6 +29,7 @@ Activity JSON Type: $/types/appActivity.d.ts::AppActivities`;
 
 const main = async () => {
     const input = await getInput({
+        name: 'AppActivity Update',
         help,
         inScriptable: true,
         args: [{
