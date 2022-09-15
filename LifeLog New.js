@@ -9,25 +9,15 @@
 try { require; } catch(e) { require = importModule; }
 
 const {
-    getInput, readJson, writeJson, output, error, string
+    getInput, readJson, output, error, string
 } = require('./lib/lib.js');
 
-/**
- * Converts a name from camel case into a title.
- * @param {string} name the camel case name (ex: "gameSteamOnly")
- * @return {string} the title (ex: "Game (Steam Only)")
- */
-const camelCaseToTitle = name => 
-    name.charAt(0).toUpperCase() +
-    name.substring(1).replace(/([A-Z])/g, ' $1').replace(/ (.+)$/, ' ($1)');
-
-/**
- * Gets a title (human-readable ID) of an activity for choosing
- * @param {LifeLogActivity} activity the activity to get a title for
- * @return {string} the title of the activity
- */
-const getActivityTitle = activity =>
-    `${activity.name} (${camelCaseToTitle(activity.type)})`;
+const {
+    pathLog,
+    camelCaseToTitle,
+    getActivityTitle,
+    updateLifeLog
+} = require('./lib/lifelog.js');
 
 /**
  * Gets an ID to match based on an activity.
@@ -38,8 +28,6 @@ const getActivityId = title => title
     .toLowerCase()
     .normalize('NFD')
     .replace(/[^-_\w]/g, '');
-
-const pathLog = '$/lifelog/lifeLog.json';
 
 const help = `Creates a new Activity in the LifeLog JSON.
 The JSON file itself will be created if it does not exist.
@@ -115,7 +103,7 @@ const main = async () => {
     }
 
     log.activities.push(newActivity);
-    await writeJson(pathLog, log);
+    await updateLifeLog(log);
     output('LifeLog New', 'Added new activity: ' + newTitle);
 };
 

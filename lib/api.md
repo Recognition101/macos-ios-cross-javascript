@@ -56,7 +56,7 @@ The following are all constants and functions available when the bridge is impor
   * *Returns:*
     * (type: `string`): a combination of all segments
 
-**getInput** `getInput(argStructure: ArgStructure): Promise<ObjectMap<boolean|string>|null>`
+**getInput** `getInput(argStructure: ArgStructure, cacheArgs: boolean): Promise<ObjectMap<boolean|string>|null>`
 
   * This should be called at the beginning of every script. It gathers
 input from the user in an environment-specific way. For instance, in
@@ -71,6 +71,7 @@ argument metadata.
   * *Arguments:*
     * `argStructure` (type: `ArgStructure`): describes all inputs the user should
 provide. See the "Helper Types" section of `api.md` for full details.
+    * `cacheArgs` (type: `boolean`): if `true`, write these args to the cache
   * *Returns:*
     * (type: `Promise<ObjectMap<boolean|string>|null>`): Resolves to an object
 with a key/value for each desired argument, or `null` if this script
@@ -183,6 +184,14 @@ should immediately terminate (ex: `--help` was asked for).
   * *Arguments:*
     * `bytesPath` (type: `string`): the file path to the binary file to write
     * `bytes` (type: `Array<number> | Uint8Array`): the list of bytes to write
+  * *Returns:*
+    * (type: `Promise<void>`): a promise resolving after the file is written
+
+**cacheArgStructure** `cacheArgStructure(argStructure: ArgStructure): Promise<void>`
+
+  * Saves an argument structure object to the argument cache.
+  * *Arguments:*
+    * `argStructure` (type: `ArgStructure`): the argument structure to write
   * *Returns:*
     * (type: `Promise<void>`): a promise resolving after the file is written
 

@@ -9,25 +9,14 @@
 try { require; } catch(e) { require = importModule; }
 
 const {
-    getInput, readJson, writeJson, output, error, string, downloadJson
+    getInput, readJson, output, error, string, downloadJson
 } = require('./lib/lib.js');
 
-/**
- * Converts a name from camel case into a title.
- * @param {string} name the camel case name (ex: "gameSteamOnly")
- * @return {string} the title (ex: "Game (Steam Only)")
- */
-const camelCaseToTitle = name => 
-    name.charAt(0).toUpperCase() +
-    name.substring(1).replace(/([A-Z])/g, ' $1').replace(/ (.+)$/, ' ($1)');
-
-/**
- * Gets a title (human-readable ID) of an activity for choosing
- * @param {LifeLogActivity} activity the activity to get a title for
- * @return {string} the title of the activity
- */
-const getActivityTitle = activity =>
-    `${activity.name} (${camelCaseToTitle(activity.type)})`;
+const {
+    pathLog,
+    getActivityTitle,
+    updateLifeLog
+} = require('./lib/lifelog.js');
 
 /**
  * Gets an iTunes ID given an iTunes URL.
@@ -69,7 +58,6 @@ const getAppActivity = async (appId, log) => {
 
 const iTunesUrl = 'https://itunes.apple.com/lookup?id=';
 const appUrl = 'https://apps.apple.com/us/app/id';
-const pathLog = '$/lifelog/lifeLog.json';
 
 const help = `Logs the start of an iOS app as an activity in the LifeLog JSON.
 If the activity does not yet exist, it will be created.
@@ -113,7 +101,7 @@ const main = async () => {
 
     activity.dateRecent = now;
     log.log[now] = activity.id;
-    await writeJson(pathLog, log);
+    await updateLifeLog(log);
 
     const title = getActivityTitle(activity);
     output('LifeLog Log-New iOS', oldActivity

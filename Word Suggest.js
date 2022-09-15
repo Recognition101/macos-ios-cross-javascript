@@ -1,6 +1,6 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// always-run-in-app: true; icon-color: purple;
+// always-run-in-app: true; icon-color: blue;
 // icon-glyph: pencil-alt; share-sheet-inputs: plain-text;
 // @ts-ignore
 // eslint-disable-next-line

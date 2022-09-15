@@ -38,7 +38,7 @@ const main = async () => {
                 { title: 'Message', code: 'sms' }
             ]
         }]
-    });
+    }, true);
 
     if (!input) { return; }
 

@@ -81,13 +81,18 @@ That shortcut can be added to the home screen.
 7. Set variable (share-input) to (`$PREVIOUS`)
 8. Dictionary ()
 9. Set variable (output) to (`$PREVIOUS`)
-10. Run script (`$script`) More(Texts: [ "NONE", "shortcuts.getArgs" ], InApp: (Off), Show: (Off))
-11. Get dictionary from (`$PREVIOUS`) &rarr; `$D-Args`
-12. Get (Value) for (inScriptable) in (`$D-Args`)
-13. Text: "`$PREVIOUS`"
-14. Set variable (inScriptable) to `$PREVIOUS`
-15. Get (Value) for (args) in (`$D-Args`)
-16. Repeat with each item in (`$PREVIOUS`)
+10. Get file from (iCloud &rarr; Scriptable &rarr; args) at (`$script`.json) More(Error: (Off)) &rarr; `$MAGIC-FILE-ARGS`
+11. If (`$MAGIC-FILE-ARGS`) (has any value)
+    1. Set (argJsonString) to (`$MAGIC-FILE-ARGS`)
+12. Otherwise
+    1. [Scriptable] Run script (`$script`) More(Texts: [ "NONE", "shortcuts.getArgs" ], InApp: (Off), Show: (Off))
+    2. Set (argJsonString) to (`$PREVIOUS`)
+13. Get dictionary from (`$argJsonString`) &rarr; `$MAGIC-DICTIONARY-ARGS`
+14. Get (Value) for (inScriptable) in (`$MAGIC-DICTIONARY-ARGS`)
+15. Text: "`$PREVIOUS`"
+16. Set variable (inScriptable) to `$PREVIOUS`
+17. Get (Value) for (args) in (`$MAGIC-DICTIONARY-ARGS`)
+18. Repeat with each item in (`$PREVIOUS`)
     1. *// Parse Argument Properties*
     2. Get (Value) for (name) in (`$REPEAT-ITEM`)
     3. Text: "`$PREVIOUS`"
@@ -124,11 +129,11 @@ That shortcut can be added to the home screen.
         2. Set variable (enumMap) to (`$PREVIOUS`)
         3. Get (Value) for (choices) in (`$REPEAT-ITEM`)
         4. Repeat with each item in (`$PREVIOUS`)
-            1. Get (Value) for (title) in (`$REPEAT-ITEM-2`) &rarr; `$enumTitle`
-            2. Get (Value) for (code) in (`$REPEAT-ITEM-2`) &rarr; `$enumCode`
-            3. Set (`$enumTitle`) to (`$enumCode`) in (`$enumMap`)
+            1. Get (Value) for (title) in (`$REPEAT-ITEM-2`) &rarr; `$MAGIC-ENUM-TITLE`
+            2. Get (Value) for (code) in (`$REPEAT-ITEM-2`) &rarr; `$MAGIC-ENUM-CODE`
+            3. Set (`$MAGIC-ENUM-TITLE`) to (`$MAGIC-ENUM-CODE`) in (`$enumMap`)
             4. Set variable (enumMap) to (`$PREVIOUS`)
-            5. Text: "`$enumTitle`"
+            5. Text: "`$MAGIC-ENUM-TITLE`"
         5. Choose from (`$PREVIOUS`) More(Prompt: (`$name`: `$help`))
         6. Get (Value) for (`$PREVIOUS`) in (`$enumMap`)
         7. Set (`$name`) to (`$PREVIOUS`) in (`$output`)
@@ -140,9 +145,9 @@ That shortcut can be added to the home screen.
         3. Set variable (output) to (`$PREVIOUS`)
     25. *// Argument is BOOLEAN*
     26. If (`$type`) (is) (boolean)
-        1. Dictionary (True &rarr; True, False &rarr; False) &rarr; `$D-TRUTH`
+        1. Dictionary (True &rarr; True, False &rarr; False) &rarr; `$MAGIC-DICTIONARY-TRUTH`
         2. Choose from (`$PREVIOUS->KEYS`) More(Prompt: (`$name`: `$help`))
-        3. Get (Value) for (`$PREVIOUS`) in (`$D-TRUTH`)
+        3. Get (Value) for (`$PREVIOUS`) in (`$MAGIC-DICTIONARY-TRUTH`)
         4. Set (`$name`) to (`$PREVIOUS`) in (`$output`)
         5. Set (output) to (`$PREVIOUS`)
     27. *// Argument is DATE*
@@ -151,10 +156,10 @@ That shortcut can be added to the home screen.
         2. Format (`$PREVIOUS`) More(Date Format: (RFC 2822))
         3. Set (`$name`) to (`$PREVIOUS`) in (`$output`)
         4. Set (output) to (`$PREVIOUS`)
-17. If (`$inScriptable`) (is) (Yes)
-    1. Run (`$script`) More(Texts: [ `$output`, "shortcuts.setArgs" ], InApp: (On), Show: (On))
-18. Otherwise
-    1. Run (`$script`) More(Texts: [ `$output`, "shortcuts.setArgs" ], InApp: (Off), Show: (Off))
+19. If (`$inScriptable`) (is) (Yes)
+    1. [Scriptable] Run (`$script`) More(Texts: [ `$output`, "shortcuts.setArgs" ], InApp: (On), Show: (On))
+20. Otherwise
+    1. [Scriptable] Run (`$script`) More(Texts: [ `$output`, "shortcuts.setArgs" ], InApp: (Off), Show: (Off))
 
 ### Save to Files (Extension)
 

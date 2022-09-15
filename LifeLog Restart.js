@@ -9,58 +9,23 @@
 try { require; } catch(e) { require = importModule; }
 
 const {
-    getInput, readJson, writeJson, output, error, string
+    getInput, readJson, output, error, string
 } = require('./lib/lib.js');
 
-/**
- * Converts a name from camel case into a title.
- * @param {string} name the camel case name (ex: "gameSteamOnly")
- * @return {string} the title (ex: "Game (Steam Only)")
- */
-const camelCaseToTitle = name => 
-    name.charAt(0).toUpperCase() +
-    name.substring(1).replace(/([A-Z])/g, ' $1').replace(/ (.+)$/, ' ($1)');
+const {
+    pathLog,
+    getActivityTitle,
+    getRestartArgs,
+    updateLifeLog
+} = require('./lib/lifelog.js');
 
-/**
- * Gets a title (human-readable ID) of an activity for choosing
- * @param {LifeLogActivity} activity the activity to get a title for
- * @return {string} the title of the activity
- */
-const getActivityTitle = activity =>
-    `${activity.name} (${camelCaseToTitle(activity.type)})`;
-
-const pathLog = '$/lifelog/lifeLog.json';
-
-const help = `Restarts an existing (ended) Activity in the LifeLog JSON.
-
-Setup: Use the "LifeLog New" script to create a LifeLog Activity (and JSON).
-
-LifeLog JSON Path: ${pathLog}
-LifeLog JSON Type: $/types/lifeLog.d.ts::LifeLog`;
 
 const main = async () => {
     const logJson = /** @type {LifeLog|null} */(await readJson(pathLog));
     /** @type {LifeLog} */
     const log = logJson || { activities: [], log: {}, finish: {} };
 
-    const activities = log.activities
-        .filter(a => Boolean(a.dateFinished))
-        .sort((a, b) => b.dateRecent - a.dateRecent);
-
-    const activityTitles = activities.map(x => getActivityTitle(x));
-
-    const input = await getInput({
-        name: 'LifeLog Restart',
-        help,
-        inScriptable: false,
-        args: [{
-            name: 'activity',
-            shortName: 'a',
-            type: 'enum',
-            help: 'The title of the activity.',
-            choices: activityTitles.map(title => ({ title, code: title }))
-        }]
-    });
+    const input = await getInput(getRestartArgs(log));
 
     if (!input) { return; }
 
@@ -80,7 +45,7 @@ const main = async () => {
     match.dateRecent = now;
     log.log[now] = match.id;
 
-    await writeJson(pathLog, log);
+    await updateLifeLog(log);
     output('LifeLog Restart', 'Activity Restarted: ' + title);
 };
 

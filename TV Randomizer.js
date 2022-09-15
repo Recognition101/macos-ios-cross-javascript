@@ -58,7 +58,7 @@ const main = async () => {
             choices: (config?.shows ?? [ ])
                 .map(x => ({ title: x.name, code: x.code }))
         }]
-    });
+    }, true);
 
     if (!input) { return; }
 
