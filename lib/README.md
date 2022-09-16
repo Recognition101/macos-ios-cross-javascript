@@ -72,7 +72,7 @@ That shortcut can be added to the home screen.
 
 ### Scriptable Harness
 
-1. Set (inputDictionary) to (`$SHORTCUT-INPUT`)
+1. Set variable (inputDictionary) to (`$SHORTCUT-INPUT`)
 2. Get (Value) for (script) in (`$inputDictionary`)
 3. Set variable (script) to (`$PREVIOUS`)
 4. Get (Value) for (share) in (`$inputDictionary`)
@@ -83,10 +83,10 @@ That shortcut can be added to the home screen.
 9. Set variable (output) to (`$PREVIOUS`)
 10. Get file from (iCloud &rarr; Scriptable &rarr; args) at (`$script`.json) More(Error: (Off)) &rarr; `$MAGIC-FILE-ARGS`
 11. If (`$MAGIC-FILE-ARGS`) (has any value)
-    1. Set (argJsonString) to (`$MAGIC-FILE-ARGS`)
+    1. Set variable (argJsonString) to (`$MAGIC-FILE-ARGS`)
 12. Otherwise
     1. [Scriptable] Run script (`$script`) More(Texts: [ "NONE", "shortcuts.getArgs" ], InApp: (Off), Show: (Off))
-    2. Set (argJsonString) to (`$PREVIOUS`)
+    2. Set variable (argJsonString) to (`$PREVIOUS`)
 13. Get dictionary from (`$argJsonString`) &rarr; `$MAGIC-DICTIONARY-ARGS`
 14. Get (Value) for (inScriptable) in (`$MAGIC-DICTIONARY-ARGS`)
 15. Text: "`$PREVIOUS`"
@@ -149,13 +149,13 @@ That shortcut can be added to the home screen.
         2. Choose from (`$PREVIOUS->KEYS`) More(Prompt: (`$name`: `$help`))
         3. Get (Value) for (`$PREVIOUS`) in (`$MAGIC-DICTIONARY-TRUTH`)
         4. Set (`$name`) to (`$PREVIOUS`) in (`$output`)
-        5. Set (output) to (`$PREVIOUS`)
+        5. Set variable (output) to (`$PREVIOUS`)
     27. *// Argument is DATE*
     28. If (`$type`) (is) (date)
         1. Ask for (Date and Time) with (`$name`: `$help`) More(Default: (Current Date))
         2. Format (`$PREVIOUS`) More(Date Format: (RFC 2822))
         3. Set (`$name`) to (`$PREVIOUS`) in (`$output`)
-        4. Set (output) to (`$PREVIOUS`)
+        4. Set variable (output) to (`$PREVIOUS`)
 19. If (`$inScriptable`) (is) (Yes)
     1. [Scriptable] Run (`$script`) More(Texts: [ `$output`, "shortcuts.setArgs" ], InApp: (On), Show: (On))
 20. Otherwise
