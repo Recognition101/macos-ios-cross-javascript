@@ -26,7 +26,8 @@ const pathLog = `${pathFolder}/temperature-log-${nowString}.json`;
 
 const help = `Logs into a Philips Hue system with login details from the
 Temperature Config JSON file, and copies all current thermometer readings into
-the Temperature Log JSON file.
+the Temperature Log JSON file. Note that all temperatures are recorded in
+degrees Celsius times 100 (ex: a recording of 2468 means 24.68 degrees C).
 
 Setup: Manually create the Temperature Config JSON file.
 
@@ -62,7 +63,7 @@ const main = async () => {
     const info = /** @type {PhilipsHue.Index|null} */(infoJson);
 
     for(const sensor of Object.values(info?.sensors ?? { })) {
-        const name = sensor.name;
+        const name = config.deviceAliasMap?.[sensor.name] ?? sensor.name;
         const temperature = sensor.state?.temperature;
         const lastUpdated = sensor.state?.lastupdated;
         if (name && temperature && lastUpdated) {
@@ -78,7 +79,9 @@ const main = async () => {
 
     await makeDirectory(pathFolder);
     await writeJson(pathLog, log);
-    output('Temperature Log', 'Temperatures Recorded.');
+
+    const timeWritten = (new Date()).toISOString();
+    output('Temperature Log', `Temperatures Recorded at: ${timeWritten}`);
 };
 
 main();

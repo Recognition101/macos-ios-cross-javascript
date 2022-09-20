@@ -10,6 +10,12 @@ declare namespace Temperature {
 
         /** The hostname to GET data from, ex: "10.0.1.14". */
         hostName: string;
+
+        /**
+         * An optional map of hardware-provided names to aliases to use in
+         * the `Temperature.Log`.
+         */
+        deviceAliasMap?: ObjectMap<string>;
     }
 
     interface Log {
