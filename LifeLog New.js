@@ -43,7 +43,7 @@ const main = async () => {
     /** @type {LifeLogTypeList} */
     const types = [
         'movie', 'tv', 'project', 'book',
-        'gamePc', 'gameApple', 'gameSwitch'
+        'gamePc', 'gameApple', 'gameNintendo', 'gamePico8'
     ];
 
     const typeOptions = types.map(type => ({

@@ -11,7 +11,8 @@ type LifeLogTypeList = [
     'book',
     'gamePc',
     'gameApple',
-    'gameSwitch'
+    'gameNintendo',
+    'gamePico8'
 ];
 
 type LifeLogType = LifeLogTypeList[number];
