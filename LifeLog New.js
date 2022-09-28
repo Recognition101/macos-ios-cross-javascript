@@ -8,44 +8,28 @@
 // eslint-disable-next-line
 try { require; } catch(e) { require = importModule; }
 
+const { getInput, output, error, string } = require('./lib/lib.js');
 const {
-    getInput, readJson, output, error, string
-} = require('./lib/lib.js');
-
-const {
-    pathLog,
+    pathLog, pathActivities,
     camelCaseToTitle,
-    getActivityTitle,
-    updateLifeLog
+    makeActivityId,
+    readLog, readActivities, writeLifeLogData
 } = require('./lib/lifelog.js');
 
-/**
- * Gets an ID to match based on an activity.
- * @param {string} title the title of the activity to get a hash for
- * @return {string} the hashed ID
- */
-const getActivityId = title => title
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[^-_\w]/g, '');
-
-const help = `Creates a new Activity in the LifeLog JSON.
-The JSON file itself will be created if it does not exist.
+const help = `Creates a new Activity in the LifeLog Activities JSON.
 
 LifeLog JSON Path: ${pathLog}
-LifeLog JSON Type: $/types/lifeLog.d.ts::LifeLog`;
+LifeLog JSON Type: $/types/lifeLog.d.ts::LifeLog
+LifeLog Activities JSON Path: ${pathActivities}
+LifeLog Activities JSON Type: $/types/lifeLog.d.ts::LifeLogActivities`;
 
 const main = async () => {
-    const logJson = /** @type {LifeLog|null} */(await readJson(pathLog));
-    /** @type {LifeLog} */
-    const log = logJson || { activities: [], log: {}, finish: {} };
+    const log = await readLog();
+    const acts = await readActivities();
 
     /** @type {LifeLogTypeList} */
-    const types = [
-        'movie', 'tv', 'project', 'book',
-        'gamePc', 'gameApple', 'gameNintendo', 'gamePico8'
-    ];
-
+    const types = [ 'movie', 'tv', 'book', 'game' ];
+    
     const typeOptions = types.map(type => ({
         title: camelCaseToTitle(type),
         code: type
@@ -67,44 +51,41 @@ const main = async () => {
             choices: typeOptions,
             help: 'The type of activity.'
         }, {
-            name: 'url',
-            shortName: 'u',
+            name: 'subType',
+            shortName: 's',
             type: 'string',
-            help: 'A URL to the activity\'s home page.'
+            help: 'The activity sub-type ' +
+                '(book author, movie year, game system).'
         }]
     });
 
     if (!input) { return; }
 
     const name = string(input.name);
-    const url = string(input.url) || undefined;
     const type = types.find(x => input && x === input.type);
+    const argSubType = string(input.subType);
 
-    if (!name || !type) {
-        return error('LifeLog New', `Invalid ${!name ? 'Name' : 'Type'}`);
+    if (!name || !type || !argSubType) {
+        const errorKind = !name ? 'Name' : (!type ? 'Type' : 'Sub-Type');
+        return error('LifeLog New', `Invalid ${errorKind}!`);
     }
 
-    const id = log.activities.reduce((max, a) => Math.max(max, a.id + 1), 0);
-    const now = (new Date()).getTime();
-    const dateCreated = now;
-    const dateRecent = now;
+    // Write new Activity to `acts`
+    const timeCreated = (new Date()).getTime();
+    const subType = argSubType.replaceAll('/', '-');
+    const key = `lifelog://${type}/${subType}/${name}`;
+    const isOld = key in acts;
 
-    /** @type {LifeLogActivity} */
-    const newActivity = { id, name, type, url, dateCreated, dateRecent };
-    const newTitle = getActivityTitle(newActivity);
-    const newId = getActivityId(newTitle);
+    acts[key] = acts[key] || { key, type, subType, name, timeCreated };
 
-    const oldActivity = log.activities.find(
-        act => getActivityId(getActivityTitle(act)) === newId);
+    // Activate new Activity in `log`
+    makeActivityId(key, log);
+    log.active = Array.from((new Set(log.active)).add(key));
 
-    if (oldActivity) {
-        return error('LifeLog New',
-            'Activity already exists: ' + getActivityTitle(oldActivity));
-    }
+    await writeLifeLogData(log, acts, true);
 
-    log.activities.push(newActivity);
-    await updateLifeLog(log);
-    output('LifeLog New', 'Added new activity: ' + newTitle);
+    const outVerb = isOld ? 'Reactivated' : 'Added new';
+    output('LifeLog New', `${outVerb} activity: ${name}`);
 };
 
 main();

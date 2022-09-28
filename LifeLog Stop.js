@@ -3,7 +3,7 @@
 // icon-color: deep-green; icon-glyph: bookmark;
 // share-sheet-inputs: url;
 
-///<reference path="./types/lifeLog2.d.ts" />
+///<reference path="./types/lifeLog.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
 try { require; } catch(e) { require = importModule; }
@@ -13,7 +13,7 @@ const {
     getActivityTitle,
     getArgumentsStop,
     readLog, readActivities, writeLifeLogData,
-} = require('./lib/lifelog2.js');
+} = require('./lib/lifelog.js');
 
 const main = async () => {
     const log = await readLog();

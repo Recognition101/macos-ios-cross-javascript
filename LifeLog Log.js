@@ -1,6 +1,6 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// icon-color: deep-green; icon-glyph: pencil-alt;
+// icon-color: deep-green; icon-glyph: bookmark;
 // share-sheet-inputs: url;
 
 ///<reference path="./types/lifeLog.d.ts" />
@@ -8,48 +8,33 @@
 // eslint-disable-next-line
 try { require; } catch(e) { require = importModule; }
 
+const { getInput, output, error, string } = require('./lib/lib.js');
 const {
-    getInput, readJson, output, error, string
-} = require('./lib/lib.js');
-
-const {
-    pathLog,
     getActivityTitle,
-    getLogArgs,
-    updateLifeLog
+    getArgumentsLog,
+    readLog, readActivities, writeLifeLogData,
 } = require('./lib/lifelog.js');
 
-
 const main = async () => {
-    const logJson = /** @type {LifeLog|null} */(await readJson(pathLog));
-    /** @type {LifeLog} */
-    const log = logJson || { activities: [], log: {}, finish: {} };
-
-    const input = await getInput(getLogArgs(log));
+    const log = await readLog();
+    const acts = await readActivities();
+    const input = await getInput(getArgumentsLog(log, acts));
 
     if (!input) { return; }
 
-    const title = string(input.activity);
-    const timeString = string(input.time);
-    const match = log.activities.find(x => getActivityTitle(x) === title);
+    const key = string(input.activity);
+    const time = Number(input.time);
+    const id = log.idMap[key];
 
-    if (!title || !match) {
-        return error('LifeLog Log',
-            !title && input.activity ? 'Too many matches for that activity.' :
-            !title && !input.activity ? 'No matches for that activity.' :
-            !match ? 'getInput returned bad enum value (Internal Error).' :
-            'Bad input.');
+    if (!time || typeof id !== 'number') {
+        return error('LifeLog New', `Invalid ${time ? 'activity' : 'time'}!`);
     }
 
-    const time = timeString && /^\d+$/.test(timeString)
-        ? parseInt(timeString, 10)
-        : Date.parse(timeString) || Date.now();
+    log.log[time] = id;
 
-    match.dateRecent = Math.max(match.dateRecent, time);
-    log.log[time] = match.id;
+    await writeLifeLogData(log, acts);
 
-    await updateLifeLog(log);
-    output('LifeLog Log', 'Activity Started: ' + title);
+    output('LifeLog Log', `Logged activity: ${getActivityTitle(key, acts)}`);
 };
 
 main();

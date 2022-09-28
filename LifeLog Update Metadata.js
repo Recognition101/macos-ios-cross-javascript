@@ -3,7 +3,7 @@
 // icon-color: deep-green; icon-glyph: bookmark;
 // share-sheet-inputs: url;
 
-///<reference path="./types/lifeLog2.d.ts" />
+///<reference path="./types/lifeLog.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
 try { require; } catch(e) { require = importModule; }
@@ -21,7 +21,7 @@ const {
     getParamString,
     getActivityTimeBounds, getKeyFromUrl,
     readLog, readActivities, writeLifeLogData
-} = require('./lib/lifelog2.js');
+} = require('./lib/lifelog.js');
 
 const apiUrlApple = 'https://itunes.apple.com/lookup?id=';
 const apiUrlSteam = 'https://store.steampowered.com/api/appdetails?';
@@ -34,16 +34,16 @@ Setup: Manually create the SteamData JSON file.
 SteamData JSON Path: ${pathSteamConfig}
 SteamData JSON Type: $/types/steam.d.ts::SteamData.Config
 LifeLog JSON Path: ${pathLog}
-LifeLog JSON Type: $/types/lifeLog2.d.ts::LifeLog
+LifeLog JSON Type: $/types/lifeLog.d.ts::LifeLog
 LifeLog Activities JSON Path: ${pathActivities}
-LifeLog Activities JSON Type: $/types/lifeLog2.d.ts::LifeLog2Activities`;
+LifeLog Activities JSON Type: $/types/lifeLog.d.ts::LifeLogActivities`;
 
 const main = async () => {
     const log = await readLog();
     const acts = await readActivities();
 
     const input = await getInput({
-        name: 'LifeLog2 Update Metadata',
+        name: 'LifeLog Update Metadata',
         help,
         inScriptable: true,
         args: []
@@ -57,7 +57,7 @@ const main = async () => {
     const steamApiKey = steamConfig?.apiKey;
     if (!steamUserId || !steamApiKey) {
         return error(
-            'LifeLog2 Update Metadata',
+            'LifeLog Update Metadata',
             `SteamData JSON missing: ${!steamUserId ? 'userId' : 'apiKey'}`
         );
     }
@@ -131,7 +131,7 @@ const main = async () => {
     const outFailures = failCount > 0 ? `\n${failed.join('\n')}\n` : '\n';
     const outSummary = `LifeLog Activity Changes: ${outStats}`;
     status(outSummary + ' Failures:' + outFailures);
-    output('LifeLog2 Update Metadata', outSummary);
+    output('LifeLog Update Metadata', outSummary);
 };
 
 main();

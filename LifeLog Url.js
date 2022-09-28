@@ -3,7 +3,7 @@
 // icon-color: deep-green; icon-glyph: bookmark;
 // share-sheet-inputs: url;
 
-///<reference path="./types/lifeLog2.d.ts" />
+///<reference path="./types/lifeLog.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
 try { require; } catch(e) { require = importModule; }
@@ -13,7 +13,7 @@ const {
     pathLog, pathActivities,
     makeActivityId, getActivityTitle, getKeyFromUrl,
     readLog, readActivities, writeLifeLogData
-} = require('./lib/lifelog2.js');
+} = require('./lib/lifelog.js');
 
 const help = `Logs a URL-based activity, ex:
  - An iTunes App
@@ -21,15 +21,15 @@ const help = `Logs a URL-based activity, ex:
  - A Steam Game
 
 LifeLog JSON Path: ${pathLog}
-LifeLog JSON Type: $/types/lifeLog2.d.ts::LifeLog
+LifeLog JSON Type: $/types/lifeLog.d.ts::LifeLog
 LifeLog Activities JSON Path: ${pathActivities}
-LifeLog Activities JSON Type: $/types/lifeLog2.d.ts::LifeLog2Activities`;
+LifeLog Activities JSON Type: $/types/lifeLog.d.ts::LifeLogActivities`;
 
 const main = async () => {
     const log = await readLog();
     const acts = await readActivities();
     const input = await getInput({
-        name: 'LifeLog2 URL',
+        name: 'LifeLog URL',
         help,
         inScriptable: false,
         args: [{
