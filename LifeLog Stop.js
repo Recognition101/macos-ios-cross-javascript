@@ -1,6 +1,6 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// icon-color: deep-green; icon-glyph: bookmark;
+// icon-color: deep-green; icon-glyph: stop-circle;
 // share-sheet-inputs: url;
 
 ///<reference path="./types/lifeLog.d.ts" />
@@ -10,6 +10,7 @@ try { require; } catch(e) { require = importModule; }
 
 const { getInput, output, error, string } = require('./lib/lib.js');
 const {
+    parseTime,
     getActivityTitle,
     getArgumentsStop,
     readLog, readActivities, writeLifeLogData,
@@ -23,7 +24,7 @@ const main = async () => {
     if (!input) { return; }
 
     const key = string(input.activity);
-    const time = Number(input.time);
+    const time = parseTime(input.time);
     const isFinished = !!input.finish;
     const id = log.idMap[key];
 
