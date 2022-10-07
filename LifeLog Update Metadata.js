@@ -1,6 +1,6 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// icon-color: yellow; icon-glyph: atlas; share-sheet-inputs: url;
+// icon-color: yellow; icon-glyph: atlas;
 
 ///<reference path="./types/lifeLog.d.ts" />
 // @ts-ignore

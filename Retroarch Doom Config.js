@@ -1,7 +1,7 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: light-brown; icon-glyph: crosshairs;
-// share-sheet-inputs: url;
+// share-sheet-inputs: file-url;
 
 ///<reference path="./types/featuredGame.d.ts" />
 ///<reference path="./types/tunesQuery.d.ts" />

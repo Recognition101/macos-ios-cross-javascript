@@ -1,7 +1,7 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: deep-green; icon-glyph: leaf;
-// share-sheet-inputs: url;
+// share-sheet-inputs: plain-text;
 
 // @ts-ignore
 // eslint-disable-next-line

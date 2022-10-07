@@ -1,6 +1,6 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// icon-color: blue; icon-glyph: clock; share-sheet-inputs: plain-text, url;
+// icon-color: blue; icon-glyph: clock; share-sheet-inputs: plain-text;
 // @ts-ignore
 // eslint-disable-next-line
 try { require; } catch(e) { require = importModule; }
