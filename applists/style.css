@@ -1,0 +1,101 @@
+html {
+    font-size: 12px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif, "Apple Color Emoji",
+        "Segoe UI Emoji", "Segoe UI Symbol";
+
+    --color-text: rgb(0, 0, 0);
+    --color-text-alt: rgb(128, 128, 128);
+    --color-text-price-new: green;
+    --color-text-price-old: red;
+    --color-background: rgb(255, 255, 255);
+}
+
+@media (prefers-color-scheme: dark) {
+    html {
+        --color-text: rgb(255, 255, 255);
+        --color-text-alt: rgb(128, 128, 128);
+        --color-text-price-new: green;
+        --color-text-price-old: red;
+        --color-background: rgb(0, 0, 0);
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    html { font-size: 8px; }
+}
+
+body {
+    margin: 0;
+    color: var(--color-text);
+    background-color: var(--color-background);
+}
+
+a {
+    color: var(--color-text);
+    text-decoration: none;
+}
+
+h1 {
+    margin: 0.4rem 1rem;
+    font-size: 2rem;
+}
+
+h2 {
+    margin: 0.4rem 1rem;
+    font-size: 1.5rem;
+}
+
+#group-sale button {
+    display: block;
+    margin: auto;
+}
+
+.icons {
+    margin: 1rem;
+    padding: 0;
+
+    display: grid;
+    list-style: none;
+    grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+    grid-gap: 0.8rem;
+}
+
+.icons li {
+    margin: 0 0 1rem 0;
+}
+
+.icons img {
+    width: 100%;
+    border-radius: 2rem;
+}
+
+.icons h3 {
+    margin: 0;
+    padding: 0.5rem 0 1rem 0;
+    font-size: 1rem;
+}
+
+.icons .date {
+    color: var(--color-text-alt);
+}
+
+.app:not(.sale) .price + .price {
+    display: none;
+}
+
+.app.sale .price:first-child {
+    color: var(--color-text-price-old);
+    text-decoration: line-through;
+}
+
+.app.sale .price + .price {
+    padding-left: 1rem;
+    color: var(--color-text-price-new);
+}
+
+.abandoned .id {
+    padding-right: 1rem;
+    color: var(--color-text-alt);
+    font-family: monospace;
+}
