@@ -1,7 +1,7 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // always-run-in-app: true; icon-color: yellow;
-// icon-glyph: dollar-sign;
+// icon-glyph: layer-group;
 
 ///<reference path="./types/appLists.d.ts" />
 // @ts-ignore
@@ -14,7 +14,7 @@ const {
 } = require('./lib/lib.js');
 
 const {
-    getArgumentsUpdateSales,
+    getArgumentsUpdate,
     readLists, writeLists, parseId, getMetadata
 } = require('./lib/applists.js');
 
@@ -22,7 +22,7 @@ const previewUrl = 'https://apps.apple.com/us/app/';
 
 const main = async () => {
     const listSet = await readLists();
-    const input = await getInput(getArgumentsUpdateSales(listSet));
+    const input = await getInput(getArgumentsUpdate(listSet));
 
     if (!input) { return; }
 
@@ -30,37 +30,44 @@ const main = async () => {
     const list = listSet.lists[listName];
 
     if (!list) {
-        return error('App Lists Update Sales', 'No list found to update.');
+        return error('App Lists Update', 'No list found to update.');
     }
 
     /** @type {AppListsMetadata[]} */
-    const saleItems = [ ];
+    const items = [ ];
+
     for(const [i, item] of list.entries()) {
         status(`Updating: ${i} / ${list.length}`);
         const id = parseId(item);
         const metadata = listSet.metadata[id];
-        if (metadata) {
-            const result = await getMetadata(id);
-            if ('error' in result) {
-                return error('App Lists Update Sales', result.error);
-            }
-            if (result.value.price < metadata.price) {
-                metadata.salePrice = result.value.price;
-                saleItems.push(metadata);
-            } else {
-                delete metadata.salePrice;
-            }
+        const isActive = metadata && !metadata.isDelisted;
+        const result = isActive ? await getMetadata(id) : null;
+
+        if (metadata && result && 'error' in result) {
+            metadata.isDelisted = true;
+        }
+
+        if (metadata && result && 'value' in result) {
+            items.push(metadata);
+
+            const price = result.value.price;
+            metadata.name = result.value.name;
+            metadata.artUrl = result.value.artUrl;
+            metadata.lastUpdated = result.value.lastUpdated;
+            metadata.salePrice = price < metadata.price ? price : undefined;
         }
     }
 
     await writeLists(listSet);
 
     status(`Updated: ${list.length} / ${list.length}`);
-    for(const item of saleItems) {
+    for(const item of items) {
         const { id, name, price, salePrice } = item;
-        log(`${price} -> ${salePrice}: ${name} (${previewUrl}id${id})`);
+        if (salePrice !== undefined) {
+            log(`${price} -> ${salePrice}: ${name} (${previewUrl}id${id})`);
+        }
     }
-    output('App Lists Update Sales', `Sale Prices Updated In: ${listName}`);
+    output('App Lists Update', `Items Updated In: ${listName}`);
 };
 
 main();

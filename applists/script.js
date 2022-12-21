@@ -145,7 +145,7 @@ const main = async () => {
 
         for(const name of listSet.lists[domInputLists.value]) {
             const data = listSet.metadata[parseId(name)];
-            if (data) {
+            if (data && !data.isDelisted) {
                 appsAll.push(data);
             } else {
                 const colon = name.indexOf(':');

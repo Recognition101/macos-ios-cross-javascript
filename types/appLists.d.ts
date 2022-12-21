@@ -12,6 +12,7 @@ type AppListsMetadata = {
     lastUpdated: string | null;
     artUrl: string | null;
     salePrice?: number;
+    isDelisted?: boolean;
 };
 
 type AppListsMetadataAbandoned = {
