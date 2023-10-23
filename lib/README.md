@@ -157,9 +157,11 @@ That shortcut can be added to the home screen.
         3. Set (`$name`) to (`$PREVIOUS`) in (`$output`)
         4. Set variable (output) to (`$PREVIOUS`)
 19. If (`$inScriptable`) (is) (Yes)
-    1. [Scriptable] Run (`$script`) More(Texts: [ `$output`, "shortcuts.setArgs" ], InApp: (On), Show: (On))
+    1. Get File From (iCloud &rarr; Scriptable) at path (`$script`.js)
+    2. [Scriptable] Run Inline Script (`$PREVIOUS` as text) More(Texts: [ `$output`, "shortcuts.setArgs" ], InApp: (On), Show: (On))
 20. Otherwise
-    1. [Scriptable] Run (`$script`) More(Texts: [ `$output`, "shortcuts.setArgs" ], InApp: (Off), Show: (Off))
+    1. Get File From (iCloud &rarr; Scriptable) at path (`$script`.js)
+    2. [Scriptable] Run Inline Script (`$PREVIOUS` as text) More(Texts: [ `$output`, "shortcuts.setArgs" ], InApp: (Off), Show: (Off))
 
 ### Save to Files (Extension)
 

@@ -1,6 +1,6 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// icon-color: deep-green; icon-glyph: play-circle;
+// icon-color: deep-green; icon-glyph: list-alt;
 
 ///<reference path="./types/lifeLog.d.ts" />
 // @ts-ignore

@@ -160,6 +160,14 @@ should immediately terminate (ex: `--help` was asked for).
   * *Returns:*
     * (type: `Promise<Object|null>`): resolves to the object or null if invalid
 
+**readBytes** `readBytes(bytesPath: string): Promise<Uint8Array|null>`
+
+  * Reads a binary file at a given path and returns the result.
+  * *Arguments:*
+    * `bytesPath` (type: `string`): the file path to the binary file
+  * *Returns:*
+    * (type: `Promise<Uint8Array|null>`): resolves to the content bytes
+
 **writeText** `writeText(textPath: string, text: string): Promise<void>`
 
   * Writes a string to a text file.
@@ -226,6 +234,14 @@ should immediately terminate (ex: `--help` was asked for).
     * `filePath` (type: `string`): the path to the file whose size we get
   * *Returns:*
     * (type: `Promise<number>`): the size of the file, in kilobytes
+
+**getFileModificationDate** `getFileModificationDate(filePath: string): Promise<Date|null>`
+
+  * Gets the last modified date of a particular file.
+  * *Arguments:*
+    * `filePath` (type: `string`): the path to the file whose date we get
+  * *Returns:*
+    * (type: `Promise<Date|null>`): this file's last-modified date
 
 **makeDirectory** `makeDirectory(folderPath: string): Promise<boolean>`
 

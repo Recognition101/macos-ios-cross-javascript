@@ -20,5 +20,4 @@ type AppListsMetadataAbandoned = {
     name: string;
 };
 
-type Result<T> = { value: T } | { error: string };
 type AppListsImport = { [id: string]: { name?: string } | null; };

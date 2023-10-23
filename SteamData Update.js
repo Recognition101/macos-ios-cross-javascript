@@ -1,6 +1,6 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// icon-color: yellow; icon-glyph: cloud-download-alt;
+// icon-color: yellow; icon-glyph: trophy;
 
 ///<reference path="./types/steam.d.ts" />
 // @ts-ignore

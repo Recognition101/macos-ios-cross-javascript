@@ -1,3 +1,12 @@
+type Result<T> = { value: T } | { error: string };
+
+type ByteBuilder = {
+    /** the data we are constructing */
+    data: Uint8Array;
+    /** the current index we are writing to */
+    offset: number;
+};
+
 interface ArgStructure {
     name: string;
     help: string;

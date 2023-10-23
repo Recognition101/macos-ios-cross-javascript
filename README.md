@@ -35,18 +35,25 @@ Once set up, run each script with `-h` or `--help` for documentation. Help messa
 
 ### Scripts
 
- * AppActivity Update
- * AppActivity
+ * App Icons
+ * App Lists Import
+ * App Lists Item
+ * App Lists Manage
+ * App Lists Update
+ * App Lists
  * Cafe
  * Calc
  * Caller
+ * Folder Union
  * Hue Cycle
  * LastFM History
  * Laundry Delay
- * LifeLog Finish
  * LifeLog Log
  * LifeLog New
- * LifeLog Restart
+ * LifeLog Steam
+ * LifeLog Stop
+ * LifeLog Update Metadata
+ * Lifelog Markdown
  * Markdown Folder
  * Music Playlists
  * Music Releases
@@ -67,17 +74,20 @@ Once set up, run each script with `-h` or `--help` for documentation. Help messa
  * ScriptableHelperCopy
  * Shuttle Update
  * Shuttle
+ * SteamCloud
  * SteamData Update
  * SteamData
  * TV Randomizer
+ * TV Renamer
  * Temperature Log
- * Wishlist Update
- * Wishlist
 
 ### Share
 
+ * Bsp Patcher
  * Game Add
- * LifeLog Log-New iOS
+ * LifeLog Url Finish
+ * LifeLog Url Time
+ * LifeLog Url
  * Markdown Compile
  * Markdown File
  * Open Key in Steam
@@ -90,8 +100,6 @@ Once set up, run each script with `-h` or `--help` for documentation. Help messa
  * TimeStamp Decode
  * TimeStamp Get
  * Turnip Add
- * Wishlist Add
- * Wishlist Remove
  * Word Count
  * Word Suggest
  * Word Unformat

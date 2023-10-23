@@ -36,6 +36,9 @@ const main = async () => {
     /** @type {AppListsMetadata[]} */
     const items = [ ];
 
+    /** @type {AppListsMetadata[]} */
+    const delisted = [ ];
+
     for(const [i, item] of list.entries()) {
         status(`Updating: ${i} / ${list.length}`);
         const id = parseId(item);
@@ -44,7 +47,8 @@ const main = async () => {
         const result = isActive ? await getMetadata(id) : null;
 
         if (metadata && result && 'error' in result) {
-            metadata.isDelisted = true;
+            delisted.push(metadata);
+            //metadata.isDelisted = true;
         }
 
         if (metadata && result && 'value' in result) {
@@ -61,6 +65,10 @@ const main = async () => {
     await writeLists(listSet);
 
     status(`Updated: ${list.length} / ${list.length}`);
+
+    for(const item of delisted) {
+        log(`Warning: ${item.name} @ ${item.price} may be delisted.`);
+    }
     for(const item of items) {
         const { id, name, price, salePrice } = item;
         if (salePrice !== undefined) {

@@ -21,12 +21,6 @@ const vdfEndString = 0x00;
 const vdfEndPropertyName = 0x00;
 
 /**
- * @typedef {Object} ByteBuilder
- * @prop {Uint8Array} data the data we are constructing
- * @prop {number} offset the current index we are writing to
- */
-
-/**
  * Given a string, replace all keys of a map with their values.
  * @param {ObjectMap<string>} map replace all of these keys with these values
  * @param {string} str make the replacements within this string

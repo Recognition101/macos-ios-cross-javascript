@@ -12,7 +12,7 @@ const hourMs = minuteMs * 60;
 const halfHourMs = hourMs / 2;
 const dayMs = hourMs * 24;
 
-const defaultHour = 8;
+const defaultHour = 7;
 const defaultDuration = 76;
 
 /**
@@ -55,7 +55,7 @@ const main = async () => {
 
     const defaultOffset = start.getHours() >= defaultHour ? dayMs : 0;
     const endDefault = new Date(start.getTime() + defaultOffset);
-    endDefault.setHours(8, 0, 0, 0);
+    endDefault.setHours(defaultHour, 0, 0, 0);
 
     const endWithDefault = end.getTime() > start.getTime() ? end : endDefault;
 
