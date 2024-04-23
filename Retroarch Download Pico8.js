@@ -103,9 +103,7 @@ const main = async () => {
 
         for(const game of text.matchAll(gameMatcher) ?? [ ]) {
             const urlName = game[2].replace(/^pico(8_)?/, '');
-            const urlPrefix = /\d+/.test(urlName)
-                ? urlName.substring(0, 1)
-                : urlName.substring(0, 2);
+            const urlPrefix = urlName.substring(0, 2);
             const url = `${urlCarts}/${urlPrefix}/${urlName}.p8.png`;
 
             const name = game[1]
@@ -119,6 +117,7 @@ const main = async () => {
                 log(`[  C] - ${nameFile}`);
                 countCache += 1;
             } else {
+                //console.log(url);
                 const code = await downloadFile(url, pathFile);
                 log(`${code === 200 ? '[ D ]' : '[X  ]'} - ${nameFile}`);
                 countFail += code === 200 ? 0 : 1;

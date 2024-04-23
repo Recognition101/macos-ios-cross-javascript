@@ -85,8 +85,9 @@ That shortcut can be added to the home screen.
 11. If (`$MAGIC-FILE-ARGS`) (has any value)
     1. Set variable (argJsonString) to (`$MAGIC-FILE-ARGS`)
 12. Otherwise
-    1. [Scriptable] Run script (`$script`) More(Texts: [ "NONE", "shortcuts.getArgs" ], InApp: (Off), Show: (Off))
-    2. Set variable (argJsonString) to (`$PREVIOUS`)
+    1. Get File From (iCloud &rarr; Scriptable) at path (`$script`.js)
+    2. [Scriptable] Run Inline Script (`$PREVIOUS` as text) More(Texts: [ "NONE", "shortcuts.getArgs" ], InApp: (Off), Show: (Off))
+    3. Set variable (argJsonString) to (`$PREVIOUS`)
 13. Get dictionary from (`$argJsonString`) &rarr; `$MAGIC-DICTIONARY-ARGS`
 14. Get (Value) for (inScriptable) in (`$MAGIC-DICTIONARY-ARGS`)
 15. Text: "`$PREVIOUS`"
