@@ -3,6 +3,7 @@
 // icon-color: yellow; icon-glyph: atlas;
 
 ///<reference path="./types/lifeLog.d.ts" />
+///<reference path="./types/itch.d.ts" />
 // @ts-ignore
 // eslint-disable-next-line
 try { require; } catch(e) { require = importModule; }
@@ -116,6 +117,21 @@ const main = async () => {
                 newCount += 1;
                 const subType = 'steam';
                 const timeCreated = timeBounds.get(id)?.min ?? now;
+                acts[key] = { key, type: 'game', subType, name, timeCreated };
+            } else {
+                failed.push(key);
+            }
+        }
+
+        if (urlType === 'itch' && urlId) {
+            const metadata = /** @type {ItchIo.GameMetadata|null} */(
+                await downloadJson(`${key}/data.json`)
+            );
+            if (metadata && metadata.title) {
+                newCount += 1;
+                const subType = 'itch';
+                const timeCreated = timeBounds.get(id)?.min ?? now;
+                const name = metadata.title;
                 acts[key] = { key, type: 'game', subType, name, timeCreated };
             } else {
                 failed.push(key);
