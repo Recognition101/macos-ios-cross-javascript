@@ -8,58 +8,22 @@
 try { require; } catch(e) { require = importModule; }
 
 const {
-    getInput, string, output, readText, writeText
+    getInput, string, output, readJson, readText, writeText, error
 } = require('./lib/lib.js');
 
-/** @type {ObjectMap<string>} */
-const configPatchMap = {
-    // This sets "Menu Toggle" Hotkey to start + select. '2' is L3 + R3.
-    input_menu_toggle_gamepad_combo: '4',
+const pathConfig = '$/retroarch/retroconfig.json';
 
-    // This makes A -> OK, B -> Cancel
-    menu_swap_ok_cancel_buttons: 'true',
+const help = `Updates a retroarch.cfg with preferred custom config.
 
-    // This sets the menu time format to `MM-DD HH:MM AMPM`
-    menu_timedate_style: '20',
+Setup: Manually create the RetroConfig JSON file.
 
-    // All controllers should control menu (Xbox + SNES on Windows)
-    all_users_control_menu: 'true',
-
-    // XMB UI
-    menu_driver: 'xmb',
-    xmb_vertical_thumbnails: 'true',
-
-    // Thumbnail Configuration (0 = none, 1 = snaps, 2 = titles, 3 = boxarts)
-    menu_thumbnails: '3',
-    menu_left_thumbnails: '2',
-
-    // Disable Most Settings
-    kiosk_mode_enable: 'false',
-
-    // Hide Unused Menus
-    content_show_add: 'false',
-    content_show_explore: 'false',
-    content_show_favorites: 'false',
-    content_show_history: 'true',
-    content_show_images: 'false',
-    content_show_video: 'false',
-    content_show_music: 'false',
-    content_show_netplay: 'false',
-    content_show_playlists: 'true',
-    content_show_settings: 'false',
-    content_show_add_entry: 'false',
-    content_show_contentless_cores: 'false',
-
-    // Automatically Save Every 5m
-    savestate_auto_save: 'true',
-    autosave_interval: '300'
-};
-
+RetroConfig JSON Path: ${pathConfig}
+RetroConfig JSON Type: $/types/retroarch.d.ts::RetroArch.ConfigChanges`;
 
 const main = async () => {
     const input = await getInput({
         name: 'Retrarch Set Config',
-        help: 'Updates a retroarch.cfg with preferred custom config.',
+        help,
         inScriptable: false,
         args: [{
             name: 'file',
@@ -71,18 +35,32 @@ const main = async () => {
     });
     if (!input) { return; }
 
+    const configPatchMap = /** @type {Object<string, string>|null} */(
+        await readJson(pathConfig)
+    );
+    if (!configPatchMap) {
+        return error(
+            "Retroarch Set Config",
+            "Could not load RetroConfig JSON."
+        );
+    }
+
     const configPath = string(input.file);
     let config = (await readText(configPath)) || '';
     const configPatches = Object.entries(configPatchMap);
+    let patchCount = 0;
 
     for(const [key, value] of configPatches) {
-        const replacer = new RegExp(`^${key}\\s*=.*$`, 'mg');
-        config = config.replace(replacer, `${key} = "${value}"`);
+        if (!key.startsWith("// ")) {
+            const replacer = new RegExp(`^${key}\\s*=.*$`, 'mg');
+            config = config.replace(replacer, `${key} = "${value}"`);
+            patchCount += 1;
+        }
     }
 
     await writeText(configPath, config);
 
-    output('Retroarch Set Config', `Updated ${configPatches.length} keys.`);
+    output('Retroarch Set Config', `Updated ${patchCount} keys.`);
 };
 
 main();

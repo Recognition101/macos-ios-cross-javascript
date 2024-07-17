@@ -1,4 +1,7 @@
 declare namespace RetroArch {
+    /** Describes changes to make to a RetroArch Config file. */
+    type ConfigChanges = { [configKey: string]: string };
+    
     /** Describes the configuration file for: `Retroarch Download Images.js` */
     type ImageConfig = {
         /** Maps input folder names (<KEY> in the -h help) to folder config. */
