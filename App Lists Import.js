@@ -34,7 +34,7 @@ const main = async () => {
     if (!importFile) {
         return error('App Lists Import', 'File invalid/not found.');
     }
-    if ('error' in editResult) {
+    if (editResult.error) {
         error('App Lists Import', editResult.error);
     }
 

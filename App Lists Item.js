@@ -35,7 +35,7 @@ const main = async () => {
         updateMetadata: true,
         doRemove
     });
-    if ('error' in editResult) {
+    if (editResult.error) {
         return error('App Lists Item', editResult.error);
     }
 

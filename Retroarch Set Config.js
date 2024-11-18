@@ -40,8 +40,8 @@ const main = async () => {
     );
     if (!configPatchMap) {
         return error(
-            "Retroarch Set Config",
-            "Could not load RetroConfig JSON."
+            'Retroarch Set Config',
+            'Could not load RetroConfig JSON.'
         );
     }
 
@@ -51,7 +51,7 @@ const main = async () => {
     let patchCount = 0;
 
     for(const [key, value] of configPatches) {
-        if (!key.startsWith("// ")) {
+        if (!key.startsWith('// ')) {
             const replacer = new RegExp(`^${key}\\s*=.*$`, 'mg');
             config = config.replace(replacer, `${key} = "${value}"`);
             patchCount += 1;

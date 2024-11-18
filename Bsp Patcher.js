@@ -194,7 +194,7 @@ const main = async () => {
 
     const c3Table = makeCrc32Table();
     const result = runPatcher(c3Table, fileInput, filePatch);
-    if ('error' in result) {
+    if (result.error !== undefined) {
         return error('BSP Patcher', result.error);
     }
 

@@ -10,7 +10,7 @@ try { require; } catch(e) { require = importModule; }
 
 const {
     getInput, string,
-    status, output, log, error
+    status, output, log, error, wait
 } = require('./lib/lib.js');
 
 const {
@@ -37,21 +37,26 @@ const main = async () => {
     const items = [ ];
 
     /** @type {AppListsMetadata[]} */
-    const delisted = [ ];
+    const newlyDelisted = [ ];
 
     for(const [i, item] of list.entries()) {
         status(`Updating: ${i} / ${list.length}`);
         const id = parseId(item);
         const metadata = listSet.metadata[id];
         const isActive = metadata && !metadata.isDelisted;
-        const result = isActive ? await getMetadata(id) : null;
 
-        if (metadata && result && 'error' in result) {
-            delisted.push(metadata);
-            //metadata.isDelisted = true;
+        /** @type {Result<AppListsMetadata>} */
+        let result = { error: 'First Try' };
+        for(let i = 0; i < 5 && isActive && result.error; i += 1) {
+            if (i !== 0) { await wait(100); }
+            result = await getMetadata(id);
         }
 
-        if (metadata && result && 'value' in result) {
+        if (metadata && !metadata.isDelisted && result && result.error) {
+            newlyDelisted.push(metadata);
+        }
+
+        if (metadata && result && result.value) {
             items.push(metadata);
 
             const price = result.value.price;
@@ -66,7 +71,7 @@ const main = async () => {
 
     status(`Updated: ${list.length} / ${list.length}`);
 
-    for(const item of delisted) {
+    for(const item of newlyDelisted) {
         log(`Warning: ${item.name} @ ${item.price} may be delisted.`);
     }
     for(const item of items) {

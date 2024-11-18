@@ -1,4 +1,6 @@
-type Result<T> = { value: T } | { error: string };
+type Result<T> =
+    { value: T; error?: undefined } |
+    { value?: undefined; error: string };
 
 type ByteBuilder = {
     /** the data we are constructing */
