@@ -44,7 +44,7 @@ interface LifeLogUrlKey {
     /** The activity key for the parsed URL. */
     key: string;
     /** The type of the parsed URL (used as `LifeLogActivity.subType`). */
-    urlType?: 'steam' | 'pico8' | 'apple' | 'itch';
+    urlType?: 'steam' | 'pico8' | 'apple' | 'itch' | 'playdate';
     /** The unique identifier string present in the parsed URL. */
     urlId?: string;
 }

@@ -137,6 +137,25 @@ const main = async () => {
                 failed.push(key);
             }
         }
+
+        if (urlType === 'playdate' && urlId) {
+            const html = await downloadText(url);
+            const doc = external.parse5.parse(html);
+            const title = select(doc, { tagName: 'h1' })[0] ?? null;
+            const titleImg = select(title, { tagName: 'img' })[0];
+            const name =
+                titleImg?.attrs.find(x => x.name === 'alt')?.value ||
+                (title ? getTextContent(title) : '') ||
+                '';
+            if (name) {
+                newCount += 1;
+                const subType = 'playdate';
+                const timeCreated = timeBounds.get(id)?.min ?? now;
+                acts[key] = { key, type: 'game', subType, name, timeCreated };
+            } else {
+                failed.push(key);
+            }
+        }
     }
 
     await writeLifeLogData(log, acts, true);
