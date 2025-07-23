@@ -108,7 +108,7 @@ const main = async () => {
     const input = await getInput({
         name: 'Plex Frinkiac',
         help,
-        inScriptable: true,
+        inScriptable: false,
         args: [{
             name: 'url',
             shortName: 'u',

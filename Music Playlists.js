@@ -293,8 +293,8 @@ const writeClusterPlaylist = async (
     const minScoreDecay = 0.01;
     const minScoreDistance = 0.2;
 
-    const artistsPerCluster = 4;
-    const songsPerArtist = 10;
+    const artistsPerCluster = 3;
+    const songsPerArtist = 2;
 
     const topArtists = getTopArtists(artists, top, popularity);
     const matches = getMatches(artists, similar);
