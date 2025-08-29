@@ -15,6 +15,7 @@ const main = async () => {
         name: 'Sum',
         help: 'Sums a space separated list of numbers.',
         inScriptable: false,
+        outputType: 'data',
         args: [{
             name: 'numbers',
             shortName: 'n',

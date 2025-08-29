@@ -4,9 +4,6 @@
     "scripts": {
         "lint": "eslint . && tsc -p ."
     },
-    "devDependencies": {
-        "@types/node": "13.1.7"
-    },
     "eslintConfig": {
         "root": true,
         "ignorePatterns": [
@@ -28,21 +25,44 @@
         "extends": "eslint:recommended",
         "rules": {
             "comma-dangle": "off",
-            "quotes": ["error", "single", { "allowTemplateLiterals": true}],
+            "quotes": [
+                "error",
+                "single",
+                {
+                    "allowTemplateLiterals": true
+                }
+            ],
             "semi": "error",
-            "indent": ["error", 4, { "flatTernaryExpressions": true }],
+            "indent": [
+                "error",
+                4,
+                {
+                    "flatTernaryExpressions": true
+                }
+            ],
             "no-mixed-spaces-and-tabs": "error",
             "strict": "error",
-            "max-len": ["error", 80],
+            "max-len": [
+                "error",
+                80
+            ],
             "prefer-const": "error",
             "no-console": "error",
             "no-const-assign": "error",
-            "no-empty": ["error", { "allowEmptyCatch": true }],
+            "no-empty": [
+                "error",
+                {
+                    "allowEmptyCatch": true
+                }
+            ],
             "no-undef": "error",
             "no-unused-vars": "off",
             "no-var": "error",
             "no-extend-native": "error",
             "eqeqeq": "error"
         }
+    },
+    "devDependencies": {
+        "@types/node": "24.3.0"
     }
 }

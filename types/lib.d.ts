@@ -9,9 +9,12 @@ type ByteBuilder = {
     offset: number;
 };
 
+type ArgStructureOutputType = 'status' | 'data';
+
 interface ArgStructure {
     name: string;
     help: string;
+    outputType?: ArgStructureOutputType;
     inScriptable: boolean;
     args?: ArgDescription[];
     bookmarks?: string[];
@@ -74,8 +77,4 @@ type JsonDate =
 type TsConfig = {
     files: string[];
 };
-
-declare class TextEncoder {
-    encode: (text: string) => Uint8Array;
-}
 

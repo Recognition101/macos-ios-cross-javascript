@@ -41,11 +41,14 @@ Once set up, run each script with `-h` or `--help` for documentation. Help messa
  * App Lists Manage
  * App Lists Update
  * App Lists
+ * Bill Split
  * Cafe
  * Calc
  * Caller
  * Folder Union
+ * Games Recap Markdown
  * Hue Cycle
+ * Kbin Download History
  * LastFM History
  * Laundry Delay
  * LifeLog Log
@@ -61,6 +64,7 @@ Once set up, run each script with `-h` or `--help` for documentation. Help messa
  * Music Top Tracks
  * Pass New Random
  * Pass New Words
+ * Plex Get Library
  * Retroarch Doom Config
  * Retroarch Download Images
  * Retroarch Download Pico8
@@ -83,25 +87,30 @@ Once set up, run each script with `-h` or `--help` for documentation. Help messa
 
 ### Share
 
+ * Base64
  * Bsp Patcher
  * Game Add
  * LifeLog Url Finish
+ * LifeLog Url Start
  * LifeLog Url Time
  * LifeLog Url
  * Markdown Compile
  * Markdown File
+ * Numbered
  * Open Key in Steam
  * Open from FB
  * Open in Archive
  * Open in Lyft
  * Open in Narwhal
  * Open in Safari
+ * Plex Frinkiac
  * Sum
- * TimeStamp Decode
  * TimeStamp Get
+ * TimeStamp
  * Turnip Add
+ * Unprefixed
+ * UrlParam
  * Word Count
  * Word Suggest
  * Word Unformat
- * Word Unprefix
 

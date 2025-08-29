@@ -21,6 +21,7 @@ const main = async () => {
         name: 'TimeStamp Get',
         help: 'Gets a Unix epoch timestamp from a human readable value.',
         inScriptable: false,
+        outputType: 'data',
         args: [{
             name: 'time',
             shortName: 't',

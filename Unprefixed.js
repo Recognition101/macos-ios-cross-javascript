@@ -5,13 +5,14 @@
 // eslint-disable-next-line
 try { require; } catch(e) { require = importModule; }
 
-const { getInput, string, copy, paste, output } = require('./lib/lib.js');
+const { getInput, string, paste, output } = require('./lib/lib.js');
 
 const mainRemoveFormatting = async () => {
     const input = await getInput({
-        name: 'Word Unprefix',
+        name: 'Unprefixed',
         help: 'Trims non-word prefixes from the each line.',
         inScriptable: false,
+        outputType: 'data',
         args: [{
             name: 'string',
             shortName: 's',
@@ -26,8 +27,7 @@ const mainRemoveFormatting = async () => {
     const init = string(input.string) || paste();
     const prefix = init.replace(/^\W*/mg, '');
 
-    copy(prefix);
-    output('Word Unprefix', 'Text with no prefix copied to clipboard.');
+    output('Unprefixed', prefix);
 };
 
 mainRemoveFormatting();

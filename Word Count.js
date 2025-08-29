@@ -12,6 +12,7 @@ const mainWordCount = async () => {
         name: 'Word Count',
         help: 'Counts the number of words in a given string.',
         inScriptable: false,
+        outputType: 'data',
         args: [{
             name: 'string',
             shortName: 's',

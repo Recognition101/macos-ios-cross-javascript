@@ -29,6 +29,7 @@ const main = async () => {
         name: 'Laundry Delay',
         help: 'Calculates the laundry delay to input when doing laundry.',
         inScriptable: false,
+        outputType: 'data',
         args: [{
             name: 'start',
             shortName: 's',

@@ -24,6 +24,30 @@ The following are all constants and functions available when the bridge is impor
   * *Returns:*
     * (type: `string`): the encoded string
 
+**decodeURIComponent** `decodeURIComponent(input: string): string | null`
+
+  * The same as the DOM's `decodeURIComponent` function.
+  * *Arguments:*
+    * `input` (type: `string`): the string to decode
+  * *Returns:*
+    * (type: `string | null`): decoded text, or null if `input` is malformed
+
+**atob** `atob(data: string): string | null`
+
+  * The same as the browser's `atob` function.
+  * *Arguments:*
+    * `data` (type: `string`): the data to decode from base64
+  * *Returns:*
+    * (type: `string | null`): the text, or null if `data` is not valid base64
+
+**btoa** `btoa(text: string): string | null`
+
+  * The same as the browser's `btoa` function.
+  * *Arguments:*
+    * `text` (type: `string`): the text to encode into base64
+  * *Returns:*
+    * (type: `string | null`): base64 text, or `null` if it could not encode
+
 **wait** `wait(time: number): Promise<void>`
 
   * Waits for a given number of milliseconds before resolving.

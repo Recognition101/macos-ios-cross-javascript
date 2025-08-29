@@ -94,7 +94,7 @@ const main = async () => {
             const html = await downloadText(url);
             const document = external.parse5.parse(html);
             const title = select(document, { tagName: 'title' })[0];
-            const name = title ? getTextContent(title) : '';
+            const name = title ? getTextContent(title).trim() : '';
 
             if (name) {
                 newCount += 1;
@@ -143,10 +143,11 @@ const main = async () => {
             const doc = external.parse5.parse(html);
             const title = select(doc, { tagName: 'h1' })[0] ?? null;
             const titleImg = select(title, { tagName: 'img' })[0];
-            const name =
+            const titleContent =
                 titleImg?.attrs.find(x => x.name === 'alt')?.value ||
                 (title ? getTextContent(title) : '') ||
                 '';
+            const name = titleContent.trim();
             if (name) {
                 newCount += 1;
                 const subType = 'playdate';

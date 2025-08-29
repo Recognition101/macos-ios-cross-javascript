@@ -50,6 +50,7 @@ const main = async () => {
         name: 'TV Randomizer',
         help,
         inScriptable: false,
+        outputType: 'data',
         args: [{
             name: 'show',
             shortName: 's',

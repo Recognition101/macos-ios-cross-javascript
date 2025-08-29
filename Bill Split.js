@@ -1,6 +1,6 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// icon-color: blue; icon-glyph: tag;
+// icon-color: purple; icon-glyph: tag;
 // @ts-ignore
 // eslint-disable-next-line
 try { require; } catch(e) { require = importModule; }
@@ -27,6 +27,7 @@ const main = async () => {
         name: 'Bill Split',
         help: 'Splits a bill, handling extras like tip and tax.',
         inScriptable: false,
+        outputType: 'data',
         args: [{
             name: 'yours',
             shortName: 'y',

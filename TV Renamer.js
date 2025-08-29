@@ -24,7 +24,7 @@ have the "S\\d\\dE\\d\\d" (where \\d is any digit) sub-string in their name,
 and rename that file to "$name S\\d\\dE\\d\\d.extension".
 `;
 
-const nameParser = /(S\d+E\d+).*?(?:(\.[^.]*))?$/;
+const nameParser = /(S\d+E\d+).*?(?:(\.[^.]*))?$/i;
 
 const main = async () => {
     const input = await getInput({
@@ -55,9 +55,10 @@ const main = async () => {
     for(const file of files) {
         const [ _, key, ext ] = file.match(nameParser) ?? [ null, null, null ];
         if (key) {
-            const pathOld = pathJoin(pathRoot, file);
-            const pathNew = pathJoin(pathRoot, `${showName} ${key}${ext}`);
-            await moveFile(pathOld, pathNew);
+            await moveFile(
+                pathJoin(pathRoot, file),
+                pathJoin(pathRoot, `${showName} ${key.toUpperCase()}${ext}`)
+            );
             fileCount += 1;
         }
     }
