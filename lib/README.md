@@ -92,8 +92,11 @@ That shortcut can be added to the home screen.
 14. Get (Value) for (inScriptable) in (`$MAGIC-DICTIONARY-ARGS`)
 15. Text: "`$PREVIOUS`"
 16. Set variable (inScriptable) to `$PREVIOUS`
-17. Get (Value) for (args) in (`$MAGIC-DICTIONARY-ARGS`)
-18. Repeat with each item in (`$PREVIOUS`)
+17. Get (Value) for (outputType) in (`$MAGIC-DICTIONARY-ARGS`)
+18. Text: "`$PREVIOUS`"
+19. Set variable (outputType) to `$PREVIOUS`
+20. Get (Value) for (args) in (`$MAGIC-DICTIONARY-ARGS`)
+21. Repeat with each item in (`$PREVIOUS`)
     1. *// Parse Argument Properties*
     2. Get (Value) for (name) in (`$REPEAT-ITEM`)
     3. Text: "`$PREVIOUS`"
@@ -157,12 +160,14 @@ That shortcut can be added to the home screen.
         2. Format (`$PREVIOUS`) More(Date Format: (RFC 2822))
         3. Set (`$name`) to (`$PREVIOUS`) in (`$output`)
         4. Set variable (output) to (`$PREVIOUS`)
-19. If (`$inScriptable`) (is) (Yes)
+22. If (`$inScriptable`) (is) (Yes) &rarr; `$FINAL-RUN-RESULT`
     1. Get File From (iCloud &rarr; Scriptable) at path (`$script`.js)
     2. [Scriptable] Run Inline Script (`$PREVIOUS` as text) More(Texts: [ `$output`, "shortcuts.setArgs" ], InApp: (On), Show: (On))
-20. Otherwise
+23. Otherwise
     1. Get File From (iCloud &rarr; Scriptable) at path (`$script`.js)
     2. [Scriptable] Run Inline Script (`$PREVIOUS` as text) More(Texts: [ `$output`, "shortcuts.setArgs" ], InApp: (Off), Show: (Off))
+24. If (`$outputType`) (is) (data)
+    1. Copy (`$FINAL-RUN-RESULT`) to clipboard
 
 ### Save to Files (Extension)
 
