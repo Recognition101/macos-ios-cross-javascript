@@ -5,9 +5,9 @@
 // eslint-disable-next-line
 try { require; } catch(e) { require = importModule; }
 
-const { getInput, string, paste, output } = require('./lib/lib.js');
+const { getInput, string, output } = require('./lib/lib.js');
 
-const linePrefix = /^\s*(\d+.|\d+\s*-|-)\s*/;
+const getLineParts = /^(\s*)((?:\d+\.|\d+\s*-|-)\s)?(.*)$/;
 
 const main = async () => {
     const input = await getInput({
@@ -26,17 +26,27 @@ const main = async () => {
 
     if (!input) { return; }
 
-    const inText = string(input.string) || paste();
-    let count = 1;
+    const inText = string(input.string);
+    const indentCounts = /** @type {Map<number, number>} */(new Map());
 
     const outText = inText
         .split('\n')
-        .map(lineFull => {
-            const line = lineFull.trim();
-            const lineNoPrefix = line.replace(linePrefix, '');
-            const lineNew = line === '' ? '' : `${count}. ${lineNoPrefix}`;
-            count = line === '' ? 1 : (count + 1);
-            return lineNew;
+        .map(input => {
+            const inputMatch = input.match(getLineParts);
+            const indentText = inputMatch?.[1] ?? '';
+            const text = inputMatch?.[3] ?? '';
+            const indent = Iterator.from(indentText)
+                .reduce((count, c) => count + (c === '\t' ? 4 : 1), 0);
+
+            const count = (indentCounts.get(indent) ?? 0) + 1;
+            indentCounts.set(indent, count);
+            for(const indentB of indentCounts.keys()) {
+                if (indent < indentB) {
+                    indentCounts.set(indentB, 0);
+                }
+            }
+
+            return `${indentText}${count}. ${text}`;
         })
         .join('\n');
 
