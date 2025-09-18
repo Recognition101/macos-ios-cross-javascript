@@ -3,9 +3,11 @@
 This document describes how to use the library contained in this `lib` directory to create scripts that run:
 
 1. In CLI on macOS
- 2. From the share sheet on iOS/iPadOS (Using [Shortcuts](https://apps.apple.com/app/shortcuts/id915249334))
- 3. From the home screen on iOS/iPadOS (Using [Shortcuts](https://apps.apple.com/app/shortcuts/id915249334))
- 4. In the [Scriptable App](https://scriptable.app) on iOS/iPadOS
+2. From the share sheet on iOS/iPadOS (Using [Shortcuts](https://apps.apple.com/app/shortcuts/id915249334))
+3. From the home screen on iOS/iPadOS (Using [Shortcuts](https://apps.apple.com/app/shortcuts/id915249334))
+4. In the [Scriptable App](https://scriptable.app) on iOS/iPadOS
+
+
 
 ## Writing Scripts
 
@@ -32,11 +34,13 @@ The `lib` variable will then contain the library, with functions to:
 
 For a full list of functions and constants in the bridge library, see the [API documentation](./api.md).
 
+
+
 ## Environment Setup: Scriptable and CLI
 
- 1. Download [Scriptable](https://scriptable.app) on an iOS/iPadOS Device
- 2. On a Mac: Copy this `lib` directory into the `Scriptable` iCloud directory
- 3. On a Mac: Put this code in `~/.zshrc`:
+1. Download [Scriptable](https://scriptable.app) on an iOS/iPadOS Device
+2. On a Mac: Copy this `lib` directory into the `Scriptable` iCloud directory
+3. On a Mac: Put this code in `~/.zshrc`:
 
 ```sh
 export PATH_SCRIPTABLE=~/Library/Mobile\ Documents/iCloud~dk~simonbs~Scriptable/Documents
@@ -49,125 +53,150 @@ Once done, all scripts will be aliased for use in the CLI in lower-kebab-case. F
 
 Also, at this point, all scripts can be run in the Scriptable app on iOS.
 
+
+
 ## Environment Setup: Shortcuts (Share Sheets and Home Screens)
 
 For each script whose `getInput(...)` call specifies `share: true`, create a shortcut. That shortcut should accept strings and urls, so that it displays on the share sheet. It should have the following steps:
 
- 1. Dictionary (script &rarr; ScriptName<sup>[1]</sup>, share &rarr; `$SHORTCUT-INPUT`)
- 2. Run shortcut (Scriptable Harness<sup>[2]</sup>) More(Input: `$PREVIOUS`<sup>[3]</sup>)
+1. Dictionary (&darr;) &rarr; Run shortcut (Scriptable Harness<sup>[2]</sup>), Input: (<kbd>&rarrhk;</kbd>)<sup>[3]</sup>
+    1. (script) (Text) &rarr; (ScriptName)<sup>[1]</sup>
+    2. (share) (Text) &rarr; (`$SHORTCUT-INPUT`)
 
 For each script that does not need to show up on a share sheet, create a shortcut. That shortcut should accept no input, and it should have the following steps:
 
- 1. Dictionary (script &rarr; ScriptName<sup>[1]</sup>, share &rarr; "")
- 2. Run shortcut (Scriptable Harness<sup>[2]</sup>) More(Input: `$PREVIOUS`<sup>[3]</sup>)
+1. Dictionary (&darr;) &rarr; Run shortcut (Scriptable Harness<sup>[2]</sup>), Input: (<kbd>&rarrhk;</kbd>)<sup>[3]</sup>
+    1. (script) (Text) &rarr; (ScriptName)<sup>[1]</sup>
+    2. (share) (Text) &rarr; ()
 
 That shortcut can be added to the home screen.
 
 *Notes:*
  1. "ScriptName" is the script to run. For example: `Test File Name` to run: `Test File Name.js`.
  2. This requires having created the "Scriptable Harness" shortcut described in the "Helper Shortcuts" section below.
- 3. `$PREVIOUS` always refers to the result of the previous item in the same scope, including "Repeat Results" when referenced right outside/after a "Repeat".
+ 3. <kbd>&rarrhk;</kbd> always refers to the result of the previous item in the same scope, including "Repeat Results" when referenced right outside/after a "Repeat".
+
+
 
 ## Helper Shortcuts
+
+
+### Scriptable Harness Run JS
+
+#### Bash Script
+
+```bash
+export PATH="{{PATH}}"
+
+node "/Path/To/This/Repository/{{NAME}}.js" --shortcuts-args "$1" --shortcuts-mode "{{MODE}}"
+```
+
+Notes:
+1. The `{{PATH}}` text should be replaced by pasting after running `echo $PATH | pbcopy` in a terminal.
+2. The `{{NAME}}` text should be replaced with the shortcuts `$name` variable block.
+3. The `{{MODE}}` text should be replaced with the shortcuts `$mode` variable block.
+
+#### Shortcuts Code
+
+1. Set variable (input) to (`$SHORTCUT-INPUT`)
+2. Get (Value) for (name) in (`$input`) &rarr; Set variable (name) to (<kbd>&rarrhk;</kbd>)
+3. Get (Value) for (args) in (`$input`) &rarr; Set variable (args) to (<kbd>&rarrhk;</kbd>)
+4. Get (Value) for (mode) in (`$input`) &rarr; Set variable (mode) to (<kbd>&rarrhk;</kbd>)
+5. Get (Value) for (inScriptable) in (`$input`) &rarr; Set variable (inScriptable) to (<kbd>&rarrhk; as boolean</kbd>) 
+6. If (OS) (is) (macOS)
+    1. Run Shell Script (`BASH SCRIPT IN SECTION ABOVE`), Shell: (zsh), Input: (`$args`), Pass Input: (as arguments), Run as Administrator: (&#x2610;)
+7. Otherwise
+    1. Get file from (iCloud &rarr; Scriptable) at path (`$name`.js), Error if Not Found: (&#x2611;) &rarr; `$MAGIC-SCRIPTABLE-FILE`
+    2. If `$inScriptable`
+        1. [Scriptable] Run Inline Script (`$MAGIC-SCRIPTABLE-FILE as text`), Texts: [`$args`, `$mode`], Run In App: (&#x2611;), Show When Run: (&#x2611;)
+    3. Otherwise
+        1. [Scriptable] Run Inline Script (`$MAGIC-SCRIPTABLE-FILE as text`), Texts: [`$args`, `$mode`], Run In App: (&#x2610;), Show When Run: (&#x2610;)
+
+
+### Scriptable Harness Get File
+
+1. Select (Files), Select Multiple: (&#x2610;) &rarr; `$MAGIC-FILE`
+2. If (OS) (is) (macOS)
+    1. Stop and output (`$MAGIC-FILE as File Path`)
+3. Otherwise
+    1. [Scriptable] Create bookmark named (`$SHORTCUT-INPUT`) for (`$MAGIC-FILE`)
+    2. Stop and output `$SHORTCUT-INPUT`
+
 
 ### Scriptable Harness
 
 1. Set variable (inputDictionary) to (`$SHORTCUT-INPUT`)
-2. Get (Value) for (script) in (`$inputDictionary`)
-3. Set variable (script) to (`$PREVIOUS`)
-4. Get (Value) for (share) in (`$inputDictionary`)
-5. Set variable (share-raw) to (`$PREVIOUS`)
-6. Text: "`$share-raw`"
-7. Set variable (share-input) to (`$PREVIOUS`)
-8. Dictionary ()
-9. Set variable (output) to (`$PREVIOUS`)
-10. Get file from (iCloud &rarr; Scriptable &rarr; args) at (`$script`.json) More(Error: (Off)) &rarr; `$MAGIC-FILE-ARGS`
-11. If (`$MAGIC-FILE-ARGS`) (has any value)
-    1. Set variable (argJsonString) to (`$MAGIC-FILE-ARGS`)
-12. Otherwise
-    1. Get File From (iCloud &rarr; Scriptable) at path (`$script`.js)
-    2. [Scriptable] Run Inline Script (`$PREVIOUS` as text) More(Texts: [ "NONE", "shortcuts.getArgs" ], InApp: (Off), Show: (Off))
-    3. Set variable (argJsonString) to (`$PREVIOUS`)
-13. Get dictionary from (`$argJsonString`) &rarr; `$MAGIC-DICTIONARY-ARGS`
-14. Get (Value) for (inScriptable) in (`$MAGIC-DICTIONARY-ARGS`)
-15. Text: "`$PREVIOUS`"
-16. Set variable (inScriptable) to `$PREVIOUS`
-17. Get (Value) for (outputType) in (`$MAGIC-DICTIONARY-ARGS`)
-18. Text: "`$PREVIOUS`"
-19. Set variable (outputType) to `$PREVIOUS`
-20. Get (Value) for (args) in (`$MAGIC-DICTIONARY-ARGS`)
-21. Repeat with each item in (`$PREVIOUS`)
+2. Get (Value) for (script) in (`$inputDictionary`) &rarr; Set variable (script) to (<kbd>&rarrhk;</kbd>)
+3. Get (Value) for (share) in (`$inputDictionary`) &rarr; Set variable (share-raw) to (<kbd>&rarrhk;</kbd>)
+4. Text (`$share-raw`) &rarr; Set variable (share-input) to (<kbd>&rarrhk;</kbd>)
+5. Dictionary () &rarr; Set variable (output) to (<kbd>&rarrhk;</kbd>)
+6. Get file from (iCloud &rarr; Scriptable &rarr; args) at path (`$script`.json), Error If Not Found: (&#x2610;) &rarr; `$MAGIC-FILE-ARGS`
+7. If (`$MAGIC-FILE-ARGS`) (has any value)
+    1. Set variable (argJsonString) to `$MAGIC-FILE-ARGS`
+8. Otherwise
+    1. Dictionary (&darr;) &rarr; Run (Scriptable Harness Run JS), Input: (<kbd>&rarrhk;</kbd>) &rarr; Set variable (argJsonString) to (<kbd>&rarrhk;</kbd>)
+        1. (name) (Text) &rarr; (`$script`)
+        2. (mode) (Text) &rarr; (shortcuts.getArgs)
+        3. (inScriptable) (Boolean) &rarr; (False)
+9. Get dictionary from (`$argJsonString`) &rarr; `$MAGIC-ARGS`
+10. Get (Value) for (inScriptable) in (`$MAGIC-ARGS`) &rarr; Set variable (inScriptable) to (<kbd>&rarrhk;</kbd>)
+11. Get (Value) for (outputType) in (`$MAGIC-ARGS`) &rarr; Text (<kbd>&rarrhk;</kbd>) &rarr; Set variable (outputType) to (<kbd>&rarrhk;</kbd>)
+12. Get (Value) for (args) in (`$MAGIC-ARGS`)
+13. &rarr; Repeat with each item in (<kbd>&rarrhk;</kbd>)
     1. *// Parse Argument Properties*
-    2. Get (Value) for (name) in (`$REPEAT-ITEM`)
-    3. Text: "`$PREVIOUS`"
-    4. Set variable (name) to (`$PREVIOUS`)
-    5. Get (Value) for (type) in (`$REPEAT-ITEM`)
-    6. Text: "`$PREVIOUS`"
-    7. Set variable (type) to (`$PREVIOUS`)
-    8. Get (Value) for (help) in (`$REPEAT-ITEM`)
-    9. Text: "`$PREVIOUS`"
-    10. Set variable (help) to (`$PREVIOUS`)
-    11. Get (Value) for (bookmarkName) in (`$REPEAT-ITEM`)
-    12. Text: "`$PREVIOUS`"
-    13. Set variable (bookmarkName) to (`$PREVIOUS`)
-    14. Get (Value) for (share) in (`$REPEAT-ITEM`)
-    15. Text: "`$PREVIOUS`"
-    16. Set variable (share) to (`$PREVIOUS`)
-    17. *// Argument is SHARE*
-    18. If (`$share`) (is) (Yes)
-        1. If (`$share-input`) (has any value)
-            1. Set (`$name`) to (`$share-input`) in (`$output`)
-            2. Set variable (`$output`) to (`$PREVIOUS`)
-            3. Text: "share"
-            4. Set variable (type) to (`$PREVIOUS`)
-    19. *// Argument is PATHFILE*
-    20. If (`$type`) (is) (pathFile)
-        1. Show alert (`$help`) More(Title: (`$name`), Show Cancel Button: (Off))
-        2. Get File, Service: (iCloud Drive), Show Document Picker: (On), Select Multiple: (Off)
-        3. Create bookmark named (`$bookmarkName`) for (`$PREVIOUS`)
-        4. Set (`$name`) to (`$bookmarkName`) in (`$output`)
-        5. Set variable (output) to (`$PREVIOUS`)
-    21. *// Argument is ENUM*
-    22. If (`$type`) (is) (enum)
-        1. Dictionary ()
-        2. Set variable (enumMap) to (`$PREVIOUS`)
-        3. Get (Value) for (choices) in (`$REPEAT-ITEM`)
-        4. Repeat with each item in (`$PREVIOUS`)
-            1. Get (Value) for (title) in (`$REPEAT-ITEM-2`) &rarr; `$MAGIC-ENUM-TITLE`
-            2. Get (Value) for (code) in (`$REPEAT-ITEM-2`) &rarr; `$MAGIC-ENUM-CODE`
-            3. Set (`$MAGIC-ENUM-TITLE`) to (`$MAGIC-ENUM-CODE`) in (`$enumMap`)
-            4. Set variable (enumMap) to (`$PREVIOUS`)
-            5. Text: "`$MAGIC-ENUM-TITLE`"
-        5. Choose from (`$PREVIOUS`) More(Prompt: (`$name`: `$help`))
-        6. Get (Value) for (`$PREVIOUS`) in (`$enumMap`)
-        7. Set (`$name`) to (`$PREVIOUS`) in (`$output`)
-        8. Set variable (output) to (`$PREVIOUS`)
-    23. *// Argument is STRING*
-    24. If (`$type`) (is) (string)
+    2. Get (Value) for (name) in (`$REPEAT-ITEM`) &rarr; Text (<kbd>&rarrhk;</kbd>) &rarr; Set variable (name) to (<kbd>&rarrhk;</kbd>)
+    3. Get (Value) for (type) in (`$REPEAT-ITEM`) &rarr; Text (<kbd>&rarrhk;</kbd>) &rarr; Set variable (type) to (<kbd>&rarrhk;</kbd>)
+    4. Get (Value) for (help) in (`$REPEAT-ITEM`) &rarr; Text (<kbd>&rarrhk;</kbd>) &rarr; Set variable (help) to (<kbd>&rarrhk;</kbd>)
+    5. Get (Value) for (bookmarkName) in (`$REPEAT-ITEM`) &rarr; Text (<kbd>&rarrhk;</kbd>) &rarr; Set variable (bookmarkName) to (<kbd>&rarrhk;</kbd>)
+    6. Get (Value) for (share) in (`$REPEAT-ITEM`) &rarr; Text (<kbd>&rarrhk;</kbd>) &rarr; Set variable (share) to (<kbd>&rarrhk;</kbd>)
+    7. *// Argument is SHARE*
+    8. If (`$share`) (is) (Yes)
+        1. Match (\^\\s+\$) in (`$share-input`) &rarr; `$MAGIC-MATCH`
+        2. If (All) are true: (`$MAGIC-MATCH as text`) (does not have any value) *and* (`$share-input`) (is not) ()
+            1. Set (`$name`) to (`$share-input`) in (`$output`) &rarr; Set variable (output) to (<kbd>&rarrhk;</kbd>)
+            2. Text (share) &rarr; Set variable (type) to (<kbd>&rarrhk;</kbd>)
+    9. *// Argument is PATHFILE*
+    10. If (`$type`) is (pathFile)
+        1. Show alert (`$help`), Title: (`$name`), Show Cancel Button: (&#x2610;)
+        2. Run (Scriptable Harness Get File), Input: `$bookmarkName`
+        3. &rarr; Set (`$name`) to (<kbd>&rarrhk;</kbd>) in `$output` &rarr; Set variable (output) to (<kbd>&rarrhk;</kbd>)
+    11. *// Argument is ENUM*
+    12. If (`$type`) is (enum)
+        1. Dictionary () &rarr; Set variable (enumMap) to (<kbd>&rarrhk;</kbd>)
+        2. Get (Value) for (choices) in (`$REPEAT-ITEM`)
+        3. &rarr; Repeat with each item in (<kbd>&rarrhk;</kbd>)
+            1. Get (Value) for (title) in (`$REPEAT-ITEM-2`) &rarr; `$MAGIC-enumTitle`
+            2. Get (Value) for (code) in (`$REPEAT-ITEM-2`) &rarr; `$MAGIC-enumCode`
+            3. Set (`$MAGIC-enumTitle`) to (`$MAGIC-enumCode`) in `$enumMap` &rarr; Set variable (enumMap) to (<kbd>&rarrhk;</kbd>)
+            4. Text (`$MAGIC-enumTitle`)
+        4. &rarr; Choose from (<kbd>&rarrhk;</kbd>), Prompt (`$name`: `$help`)
+        5. &rarr; Get (Value) for (<kbd>&rarrhk;</kbd>) in (`enumMap`)
+        6. &rarr; Set (`$name`) to (<kbd>&rarrhk;</kbd>) in `$output` &rarr; Set variable (output) to (<kbd>&rarrhk;</kbd>)
+    13. *// Argument is STRING*
+    14. If (`$type`) (is) (string)
         1. Ask for (Text) with (`$name`: `$help`)
-        2. Set (`$name`) to (`$PREVIOUS`) in (`$output`)
-        3. Set variable (output) to (`$PREVIOUS`)
-    25. *// Argument is BOOLEAN*
-    26. If (`$type`) (is) (boolean)
-        1. Dictionary (True &rarr; True, False &rarr; False) &rarr; `$MAGIC-DICTIONARY-TRUTH`
-        2. Choose from (`$PREVIOUS->KEYS`) More(Prompt: (`$name`: `$help`))
-        3. Get (Value) for (`$PREVIOUS`) in (`$MAGIC-DICTIONARY-TRUTH`)
-        4. Set (`$name`) to (`$PREVIOUS`) in (`$output`)
-        5. Set variable (output) to (`$PREVIOUS`)
-    27. *// Argument is DATE*
-    28. If (`$type`) (is) (date)
-        1. Ask for (Date and Time) with (`$name`: `$help`) More(Default: (Current Date))
-        2. Format (`$PREVIOUS`) More(Date Format: (RFC 2822))
-        3. Set (`$name`) to (`$PREVIOUS`) in (`$output`)
-        4. Set variable (output) to (`$PREVIOUS`)
-22. If (`$inScriptable`) (is) (Yes) &rarr; `$FINAL-RUN-RESULT`
-    1. Get File From (iCloud &rarr; Scriptable) at path (`$script`.js)
-    2. [Scriptable] Run Inline Script (`$PREVIOUS` as text) More(Texts: [ `$output`, "shortcuts.setArgs" ], InApp: (On), Show: (On))
-23. Otherwise
-    1. Get File From (iCloud &rarr; Scriptable) at path (`$script`.js)
-    2. [Scriptable] Run Inline Script (`$PREVIOUS` as text) More(Texts: [ `$output`, "shortcuts.setArgs" ], InApp: (Off), Show: (Off))
-24. If (`$outputType`) (is) (data)
-    1. Copy (`$FINAL-RUN-RESULT`) to clipboard
+        2. &rarr; Set (`$name`) to (<kbd>&rarrhk;</kbd>) in (`$output`) &rarr; Set variable (output) to (<kbd>&rarrhk;</kbd>)
+    15. *// Argument is BOOLEAN*
+    16. If (`$type`) (is) (boolean)
+        1. Dictionary (&darr;) &rarr; `$MAGIC-BOOLEANS`
+            1. (True) (Boolean) &rarr; (True)
+            2. (False) (Boolean) &rarr; (False)
+        2. &rarr; Choose from (<kbd>&rarrhk; as Keys</kbd>), Prompt: (`$name`: `$help`) &rarr; Get (Value) for (<kbd>&rarrhk;</kbd>) in (`$MAGIC-BOOLEANS`)
+        3. &rarr; Set (`$name`) to (<kbd>&rarrhk;</kbd>) in (`$output`) &rarr; Set variable (output) to (<kbd>&rarrhk;</kbd>)
+    17. *// Argument is DATE*
+    18. If (`$type`) (is) (date)
+        1. Ask for (Date and Time) with (`$name`: `$help`), Default Date and Time: (`$CURRENT-DATE`)
+        2. &rarr; Format (<kbd>&rarrhk;</kbd>), Date Format: (RFC 2822)
+        3. &rarr; Set (`$name`) to (<kbd>&rarrhk;</kbd>) in (`$output`) &rarr; Set variable (output) to (<kbd>&rarrhk;</kbd>)
+14. Dictionary (&darr;) &rarr; Run (Scriptable Harness Run JS), Input: (<kbd>&rarrhk;</kbd>) &rarr; `$MAGIC-JS-OUTPUT`
+    1. (name) (Text) &rarr; (`$script`)
+    2. (mode) (Text) &rarr; (shortcuts.setArgs)
+    3. (inScriptable) (Boolean) &rarr; (`$inScriptable`)
+    4. (args) (Text) &rarr; (`$output`)
+15. If (`$outputType`) (is) (data)
+    1. Show notification (`$MAGIC-JS-OUTPUT`)
+    2. Copy (`$MAGIC-JS-OUTPUT`) to clipboard
+
 
 ### Save to Files (Extension)
 
