@@ -136,8 +136,9 @@ Notes:
 8. Otherwise
     1. Dictionary (&darr;) &rarr; Run (Scriptable Harness Run JS), Input: (<kbd>&rarrhk;</kbd>) &rarr; Set variable (argJsonString) to (<kbd>&rarrhk;</kbd>)
         1. (name) (Text) &rarr; (`$script`)
-        2. (mode) (Text) &rarr; (shortcuts.getArgs)
-        3. (inScriptable) (Boolean) &rarr; (False)
+        2. (args) (Text) &rarr; ({})
+        3. (mode) (Text) &rarr; (shortcuts.getArgs)
+        4. (inScriptable) (Boolean) &rarr; (False)
 9. Get dictionary from (`$argJsonString`) &rarr; `$MAGIC-ARGS`
 10. Get (Value) for (inScriptable) in (`$MAGIC-ARGS`) &rarr; Set variable (inScriptable) to (<kbd>&rarrhk;</kbd>)
 11. Get (Value) for (outputType) in (`$MAGIC-ARGS`) &rarr; Text (<kbd>&rarrhk;</kbd>) &rarr; Set variable (outputType) to (<kbd>&rarrhk;</kbd>)
