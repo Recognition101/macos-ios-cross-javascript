@@ -147,7 +147,7 @@ const main = async () => {
     const input = await getInput({
         name: 'Rom Patcher',
         help: 'Patch a given input file with a given patch.',
-        inScriptable: true,
+        inScriptable: false,
         args: [{
             name: 'input',
             shortName: 'i',

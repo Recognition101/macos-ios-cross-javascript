@@ -34,7 +34,7 @@ const main = async () => {
     const input = await getInput({
         name: 'Game Add',
         help,
-        inScriptable: true,
+        inScriptable: false,
         args: [{
             name: 'folder',
             shortName: 'f',

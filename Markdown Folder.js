@@ -14,7 +14,7 @@ const main = async () => {
     const input = await getInput({
         name: 'Markdown Folder',
         help: 'Converts all MD files in a folder into HTML files.',
-        inScriptable: true,
+        inScriptable: false,
         args: [{
             name: 'folder',
             shortName: 'f',

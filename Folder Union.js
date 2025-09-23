@@ -54,7 +54,7 @@ const main = async () => {
     const input = await getInput({
         name: 'Folder Sync',
         help,
-        inScriptable: true,
+        inScriptable: false,
         args: [{
             name: 'folderA',
             shortName: 'a',
