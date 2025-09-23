@@ -52,11 +52,11 @@ Once set up, run each script with `-h` or `--help` for documentation. Help messa
  * LastFM History
  * Laundry Delay
  * LifeLog Log
+ * LifeLog Markdown
  * LifeLog New
  * LifeLog Steam
  * LifeLog Stop
  * LifeLog Update Metadata
- * Lifelog Markdown
  * Markdown Folder
  * Music Playlists
  * Music Releases
@@ -84,6 +84,7 @@ Once set up, run each script with `-h` or `--help` for documentation. Help messa
  * TV Randomizer
  * TV Renamer
  * Temperature Log
+ * TimeStamp Get
 
 ### Share
 
@@ -97,15 +98,14 @@ Once set up, run each script with `-h` or `--help` for documentation. Help messa
  * Markdown Compile
  * Markdown File
  * Numbered
+ * Open Frinkiac in Plex
  * Open Key in Steam
  * Open from FB
  * Open in Archive
  * Open in Lyft
  * Open in Narwhal
  * Open in Safari
- * Plex Frinkiac
  * Sum
- * TimeStamp Get
  * TimeStamp
  * Turnip Add
  * Unprefixed

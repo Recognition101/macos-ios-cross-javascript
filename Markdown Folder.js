@@ -20,6 +20,7 @@ const main = async () => {
             shortName: 'f',
             type: 'pathFolder',
             bookmarkName: 'markdown-folder',
+            share: true,
             help: 'The folder containing markdown files to convert.'
         }]
     });

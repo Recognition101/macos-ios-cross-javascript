@@ -115,12 +115,15 @@ Notes:
 
 ### Scriptable Harness Get File
 
-1. Select (Files), Select Multiple: (&#x2610;) &rarr; `$MAGIC-FILE`
-2. If (OS) (is) (macOS)
+1. Set variable (input) to (`$SHORTCUT-INPUT`)
+2. Get (Value) for (type)  in (`$input`) &rarr; Replace (pathF) with (F) in (<kbd>&rarrhk;</kbd>) &rarr; Text(<kbd>&rarrhk;</kbd>s) &rarr; Set variable (type) to (<kbd>&rarrhk;</kbd>)
+3. Get (Value) for (bookmarkName) in (`$input`) &rarr; Set variable (bookmarkName) to (<kbd>&rarrhk;</kbd>)
+4. Select File/Folder (`$type`), Select Multiple: (&#x2610;) &rarr; `$MAGIC-FILE`
+5. If (OS) (is) (macOS)
     1. Stop and output (`$MAGIC-FILE as File Path`)
-3. Otherwise
-    1. [Scriptable] Create bookmark named (`$SHORTCUT-INPUT`) for (`$MAGIC-FILE`)
-    2. Stop and output `$SHORTCUT-INPUT`
+6. Otherwise
+    1. [Scriptable] Create bookmark named (`$bookmarkName`) for (`$MAGIC-FILE`)
+    2. Stop and output `$bookmarkName`
 
 
 ### Scriptable Harness
@@ -156,10 +159,12 @@ Notes:
         2. If (All) are true: (`$MAGIC-MATCH as text`) (does not have any value) *and* (`$share-input`) (is not) ()
             1. Set (`$name`) to (`$share-input`) in (`$output`) &rarr; Set variable (output) to (<kbd>&rarrhk;</kbd>)
             2. Text (share) &rarr; Set variable (type) to (<kbd>&rarrhk;</kbd>)
-    9. *// Argument is PATHFILE*
-    10. If (`$type`) is (pathFile)
+    9. *// Argument is PATHFILE or PATHFOLDER*
+    10. If Any are true: (`$type`) is (pathFile) *or* (`$type`) is (pathFolder)
         1. Show alert (`$help`), Title: (`$name`), Show Cancel Button: (&#x2610;)
-        2. Run (Scriptable Harness Get File), Input: `$bookmarkName`
+        2. Dictionary (&darr;) &rarr; Run (Scriptable Harness Get File), Input: (<kbd>&rarrhk;</kbd>)
+            1. (type) (Text) &rarr; (`$type`)
+            2. (bookmarkName) (Text) &rarr; (`$bookmarkName`)
         3. &rarr; Set (`$name`) to (<kbd>&rarrhk;</kbd>) in `$output` &rarr; Set variable (output) to (<kbd>&rarrhk;</kbd>)
     11. *// Argument is ENUM*
     12. If (`$type`) is (enum)
@@ -194,9 +199,9 @@ Notes:
     2. (mode) (Text) &rarr; (shortcuts.setArgs)
     3. (inScriptable) (Boolean) &rarr; (`$inScriptable`)
     4. (args) (Text) &rarr; (`$output`)
-15. If (`$outputType`) (is) (data)
-    1. Show notification (`$MAGIC-JS-OUTPUT`)
-    2. Copy (`$MAGIC-JS-OUTPUT`) to clipboard
+15. Show notification (`$MAGIC-JS-OUTPUT`)
+16. If (`$outputType`) (is) (data)
+    1. Copy (`$MAGIC-JS-OUTPUT`) to clipboard
 
 
 ### Save to Files (Extension)

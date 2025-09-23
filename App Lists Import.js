@@ -1,6 +1,6 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// icon-color: deep-green; icon-glyph: file-import;
+// icon-color: light-brown; icon-glyph: file-import;
 // share-sheet-inputs: file-url;
 
 ///<reference path="./types/appLists.d.ts" />

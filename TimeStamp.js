@@ -22,6 +22,8 @@ const months = Object.freeze(/** @type {const} */([
     'December' 
 ]));
 
+const pmInMs = 12 * 60 * 60 * 1000;
+
 const main = async () => {
 
     const input = await getInput({
@@ -67,8 +69,12 @@ const main = async () => {
         output('TimeStamp', currentTime);
         
     } else {
-        const date = new Date(string(input.text));
-        output('TimeStamp', date.getTime().toString());
+        // TODO: Fix 12 AM vs 12 PM
+        const text = string(input.text).toLowerCase().trim();
+        const suffixAmount = text.endsWith('pm') ? pmInMs : 0;
+        const textNoSuffix = text.replace(/\s*[ap]m$/, '');
+        const date = new Date(textNoSuffix);
+        output('TimeStamp', (date.getTime() + suffixAmount).toString());
     }
 };
 
