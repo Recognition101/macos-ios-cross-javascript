@@ -24,15 +24,15 @@ lifelog/summary.md
 games-recap/checklist.md
 
 # Hidden Scripts
-Welcome to Scriptable.js
-Test File.js
-Extension.js
-extension/
 Cafe.js
 cafe/
+Extension.js
+extension/
 Shuttle.js
 Shuttle Update.js
 shuttle/
+Test File.js
+Welcome to Scriptable.js
 
 # OS files
 .DS_Store

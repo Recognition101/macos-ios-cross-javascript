@@ -14,7 +14,9 @@ const {
 const pathFolder = '$/';
 const pathReadme = '$/README.md';
 const readmeBlockList = new Set([
+    'Cafe.js',
     'Extension.js',
+    'Shuttle.js',
     'Test File.js',
     'Welcome to Scriptable.js'
 ]);
@@ -22,6 +24,19 @@ const readmeBlockList = new Set([
 const pathApiAst = '$/lib/data/api-ast.json';
 const pathApiMdTemplate = '$/lib/data/api-template.md';
 const pathApiMd = '$/lib/api.md';
+
+const defaultCategory = '8. Internal Utility';
+/** @type {Object<string, string>} */
+const scriptCategories = {
+    'cyan': '1. View Internal Data',
+    'deep-green': '2. Append/Edit Internal Data',
+    'yellow': '3. Refresh Internal Data',
+    'purple': '4. Interactive Script',
+    'blue': '5. String Transformation',
+    'light-brown': '6. File Manipulation',
+    'deep-blue': '7. Location Transformation',
+    'gray': defaultCategory
+};
 
 /**
  * @param {Build.JsDocAstTyped} node extract types from this node
@@ -82,24 +97,40 @@ const main = async () => {
     const jsInfo = jsFiles.map(({ name, content }) => {
         const isShare = /share['"]?: true/.test(content);
         const inReadme = !readmeBlockList.has(name);
-        const bullet = ` * ${name.replace(/\.js\s*$/, '')}`;
-        return { name, content, isShare, inReadme, bullet };
+        const colorMatch = content.match(/^\s*\/\/.*icon-color:\s*([\w-]+)/m);
+        const color = colorMatch?.[1];
+        const category = scriptCategories[color ?? 'gray'] || defaultCategory;
+        const shareIcon = isShare ? '&#x238B; ' : '';
+        const bullet = ` * ${shareIcon}${name.replace(/\.js\s*$/, '')}`;
+        return { name, content, isShare, inReadme, bullet, category };
     });
 
-    const jsInfoScripts = jsInfo.filter(x => x.inReadme && !x.isShare);
-    const jsInfoShares = jsInfo.filter(x => x.inReadme && x.isShare);
-    const scriptsList = jsInfoScripts.map(x => x.bullet).join('\n');
-    const sharesList = jsInfoShares.map(x => x.bullet).join('\n');
+    /** @type {Object<string, (typeof jsInfo[number])[]>} */
+    const categories = {};
+    for(const js of jsInfo) {
+        categories[js.category] = categories[js.category] || [];
+        categories[js.category].push(js);
+    }
+
+    const categoryPairs = Object.entries(categories);
+    categoryPairs.sort((a, b) => a[0].localeCompare(b[0]));
+
+    const scriptsList = categoryPairs.map(([category, jsInfo]) => {
+        const scripts = jsInfo.filter(x => x.inReadme);
+        scripts.sort((a, b) =>
+            (a.isShare && !b.isShare) ? 1 :
+            (!a.isShare && b.isShare) ? -1 :
+            (a.name.localeCompare(b.name))
+        );
+
+        return `#### ${category}\n${scripts.map(x => x.bullet).join('\n')}`;
+    }).join('\n\n');
 
     const readme =
         ((await readText(pathReadme)) || '')
             .replace(
-                /### Scripts[\s\n]*(\s+\*[^\n]+\n)+/,
+                /### Scripts[\s\n]*(\s*((\*|####)[^\n]+)?\n)+/,
                 `### Scripts\n\n${scriptsList}\n`
-            )
-            .replace(
-                /### Share[\s\n]*(\s+\*[^\n]+\n)+/,
-                `### Share\n\n${sharesList}\n`
             );
 
     await writeText(pathReadme, readme);

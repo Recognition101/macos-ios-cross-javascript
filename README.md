@@ -33,38 +33,71 @@ The following scripts are included in this repository.
 
 Once set up, run each script with `-h` or `--help` for documentation. Help messages may refer to paths starting with `$`, which means "the script directory". For example, `$/README.md` refers to this file, and `$/lib/README.md` refers to the lib README.
 
+The &#x238B; symbol indicates that a script accepts share-sheet input.
+
 ### Scripts
 
- * App Icons
+#### 1. View Internal Data
+ * App Lists
+ * Calc
+ * SteamData
+
+#### 2. Append/Edit Internal Data
  * App Lists Import
  * App Lists Item
  * App Lists Manage
- * App Lists Update
- * App Lists
- * Bill Split
- * Cafe
- * Calc
- * Caller
- * Folder Union
- * Games Recap Markdown
  * Hue Cycle
- * Kbin Download History
- * LastFM History
- * Laundry Delay
  * LifeLog Log
  * LifeLog Markdown
  * LifeLog New
  * LifeLog Steam
  * LifeLog Stop
+ * Temperature Log
+ * &#x238B; Game Add
+ * &#x238B; LifeLog Url Finish
+ * &#x238B; LifeLog Url Start
+ * &#x238B; LifeLog Url Time
+ * &#x238B; LifeLog Url
+ * &#x238B; Turnip Add
+
+#### 3. Refresh Internal Data
+ * App Lists Update
+ * Games Recap Markdown
+ * LastFM History
  * LifeLog Update Metadata
- * Markdown Folder
  * Music Playlists
  * Music Releases
  * Music Similar Artists
  * Music Top Tracks
+ * Plex Get Library
+ * Shuttle Update
+ * SteamCloud
+ * SteamData Update
+
+#### 4. Interactive Script
+ * Bill Split
+ * Caller
+ * Laundry Delay
  * Pass New Random
  * Pass New Words
- * Plex Get Library
+ * TimeStamp Get
+ * TV Randomizer
+
+#### 5. String Transformation
+ * &#x238B; Base64
+ * &#x238B; Numbered
+ * &#x238B; Sum
+ * &#x238B; TimeStamp
+ * &#x238B; Unprefixed
+ * &#x238B; UrlParam
+ * &#x238B; Word Count
+ * &#x238B; Word Suggest
+ * &#x238B; Word Unformat
+
+#### 6. File Manipulation
+ * App Icons
+ * Folder Union
+ * Kbin Download History
  * Retroarch Doom Config
  * Retroarch Download Images
  * Retroarch Download Pico8
@@ -75,42 +108,20 @@ Once set up, run each script with `-h` or `--help` for documentation. Help messa
  * Retroarch Steam Grid
  * Retroarch Upload Tree
  * Scriptable Build
- * ScriptableHelperCopy
- * Shuttle Update
- * Shuttle
- * SteamCloud
- * SteamData Update
- * SteamData
- * TV Randomizer
  * TV Renamer
- * Temperature Log
- * TimeStamp Get
+ * &#x238B; Bsp Patcher
+ * &#x238B; Markdown Compile
+ * &#x238B; Markdown File
+ * &#x238B; Markdown Folder
 
-### Share
+#### 7. Location Transformation
+ * &#x238B; Open Frinkiac in Plex
+ * &#x238B; Open from FB
+ * &#x238B; Open in Archive
+ * &#x238B; Open in Lyft
+ * &#x238B; Open in Narwhal
+ * &#x238B; Open in Safari
+ * &#x238B; Open Key in Steam
 
- * Base64
- * Bsp Patcher
- * Game Add
- * LifeLog Url Finish
- * LifeLog Url Start
- * LifeLog Url Time
- * LifeLog Url
- * Markdown Compile
- * Markdown File
- * Numbered
- * Open Frinkiac in Plex
- * Open Key in Steam
- * Open from FB
- * Open in Archive
- * Open in Lyft
- * Open in Narwhal
- * Open in Safari
- * Sum
- * TimeStamp
- * Turnip Add
- * Unprefixed
- * UrlParam
- * Word Count
- * Word Suggest
- * Word Unformat
-
+#### 8. Internal Utility
+ * ScriptableHelperCopy
