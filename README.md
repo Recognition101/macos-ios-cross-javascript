@@ -85,10 +85,12 @@ The &#x238B; symbol indicates that a script accepts share-sheet input.
 
 #### 5. String Transformation
  * &#x238B; Base64
+ * &#x238B; Camel
  * &#x238B; Numbered
  * &#x238B; Sum
  * &#x238B; TimeStamp
  * &#x238B; Unprefixed
+ * &#x238B; Upper
  * &#x238B; UrlParam
  * &#x238B; Word Count
  * &#x238B; Word Suggest
