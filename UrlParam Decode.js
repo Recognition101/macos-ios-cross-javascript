@@ -14,8 +14,8 @@ const {
 
 const main = async () => {
     const input = await getInput({
-        name: 'UrlParam',
-        help: 'Converts some plain text into URL-safe text.',
+        name: 'UrlParam Decode',
+        help: 'Converts some URL-safe text into plain text.',
         inScriptable: false,
         outputType: 'data',
         args: [{
@@ -23,12 +23,12 @@ const main = async () => {
             shortName: 't',
             type: 'string',
             share: true,
-            help: 'The text to encode.'
+            help: 'The text to decode.'
         }]
     });
 
     if (!input) { return; }
-    output('UrlParam', encodeURIComponent(string(input.text)) ?? '');
+    output('UrlParam Decode', decodeURIComponent(string(input.text)) ?? '');
 };
 
 main();

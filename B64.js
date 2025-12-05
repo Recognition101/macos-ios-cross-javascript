@@ -8,10 +8,9 @@ try { require; } catch(e) { require = importModule; }
 const { getInput, string, atob, btoa, output } = require('./lib/lib.js');
 
 const main = async () => {
-
     const input = await getInput({
-        name: 'Base64',
-        help: 'Encodes/Decodes Base 64 data.',
+        name: 'B64',
+        help: 'Encodes text as Base64.',
         inScriptable: false,
         outputType: 'data',
         args: [{
@@ -19,21 +18,12 @@ const main = async () => {
             shortName: 't',
             type: 'string',
             share: true,
-            help: 'The text to encode/decode.'
-        }, {
-            name: 'decode',
-            shortName: 'd',
-            type: 'boolean',
-            help: 'Decode (true) or encode (false) the text.'
+            help: 'The text to convert to Base64.'
         }]
     });
 
     if (!input) { return; }
-
-    const text = string(input.text);
-    const out = input.decode ? atob(text) : btoa(text);
-
-    output('Base64', out ?? '');
+    output('B64', btoa(string(input.text)) ?? '');
 };
 
 main();
