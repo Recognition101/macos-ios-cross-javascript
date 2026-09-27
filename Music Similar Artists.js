@@ -74,6 +74,9 @@ const main = async () => {
         const resp = /** @type {LastFm.Response|null} */(respJson);
         if (resp && resp.similarartists) {
             output[artist] = resp.similarartists.artist;
+            for(const similarArtist of output[artist]) {
+                similarArtist.image.length = 0;
+            }
         }
 
         status('Progress: ' + Math.round(i / artists.length * 100) + '%');
