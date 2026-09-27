@@ -74,6 +74,9 @@ const main = async () => {
         const resp = await downloadJson(url);
         if (resp && resp.toptracks) {
             output[artist] = resp.toptracks.track;
+            for(const track of output[artist]) {
+                track.image.length = 0;
+            }
         }
 
         status('Progress: ' + Math.round(i / artists.length * 100) + '%');
